@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Quiz Manager</string>
+    <string name="create">Creator Mode</string>
+    <string name="attempt">Attempt Mode</string>
+    <string name="math">Math Fun</string>
+</resources>
