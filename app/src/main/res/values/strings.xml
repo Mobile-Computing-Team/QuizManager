@@ -4,4 +4,6 @@
     <string name="attempt">Attempt Mode</string>
     <string name="math">Math Fun</string>
     <string name="R">Random</string>
+    <string name="hint">Enter your answer</string>
+    <string name="submitBtn">Submit</string>
 </resources>
