@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void GotoMathFun(View view) {
         //TODO: BSEF18M046! Uncomment Following Code and Create a new activity named MathMain
-        /*Intent intent=new Intent(this,MathMain.class);
-        startActivity(intent);*/
+        Intent intent=new Intent(this,MathMainM046.class);
+        startActivity(intent);
     }
 }

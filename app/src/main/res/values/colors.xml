@@ -9,4 +9,20 @@
     <color name="colorAttemptR">#814800</color>
     <color name="colorMath">#479800</color>
     <color name="colorMathR">#2D6100</color>
+    <color name="colorAdd">#54F339</color>
+    <color name="colorAddR">#3EA307</color>
+    <color name="colorMinus">#F1DB17</color>
+    <color name="colorMinusR">#A89916</color>
+    <color name="colorMultiply">#F194C4</color>
+    <color name="colorMultiplyR">#C3337D</color>
+    <color name="colorDivide">#83BFEF</color>
+    <color name="colorDivideR">#366A93</color>
+    <color name="colorRandom">#7C3CEF</color>
+    <color name="colorRandomR">#4E2E87</color>
+    <color name="colorLow">#82EA09</color>
+    <color name="colorLowR">#507A20</color>
+    <color name="colorMedium">#E3CF17</color>
+    <color name="colorMediumR">#8A8233</color>
+    <color name="colorHigh">#F61010</color>
+    <color name="colorHighR">#8C1C1C</color>
 </resources>
