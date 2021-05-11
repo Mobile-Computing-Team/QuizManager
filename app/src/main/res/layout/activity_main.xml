@@ -7,44 +7,60 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/Creator"
-        android:layout_width="130dp"
-        android:layout_height="80dp"
-        android:text="@string/create"
-        android:textColor="#ffffffff"
-        android:background="@drawable/creator_button"
-        android:onClick="GotoCreatorMode"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Attempt"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/Attempt"
-        android:layout_width="130dp"
-        android:layout_height="80dp"
-        android:text="@string/attempt"
-        android:textColor="#ffffffff"
-        android:background="@drawable/attempt_button"
-        android:onClick="GotoAttemptMode"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/Creator"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/Math"
         android:layout_width="130dp"
         android:layout_height="80dp"
-        android:text="@string/math"
-        android:textColor="#ffffffff"
+        android:layout_marginTop="20dp"
         android:background="@drawable/math_button"
         android:onClick="GotoMathFun"
+        android:text="@string/math"
+        android:textColor="#ffffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/Math"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.69" />
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <Button
+            android:id="@+id/Creator"
+            android:layout_width="130dp"
+            android:layout_height="80dp"
+            android:background="@drawable/creator_button"
+            android:onClick="GotoCreatorMode"
+            android:text="@string/create"
+            android:textColor="#ffffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/Attempt"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/Attempt"
+            android:layout_width="130dp"
+            android:layout_height="80dp"
+            android:background="@drawable/attempt_button"
+            android:onClick="GotoAttemptMode"
+            android:text="@string/attempt"
+            android:textColor="#ffffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/Creator"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
