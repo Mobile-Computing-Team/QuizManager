@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
         <activity android:name=".CreatorModeM004" android:label="Creator Mode" android:theme="@style/Theme.AppCompat"></activity>
+        <activity android:name=".MathMainM046" android:label="Math Fun" android:theme="@style/Theme.AppCompat"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

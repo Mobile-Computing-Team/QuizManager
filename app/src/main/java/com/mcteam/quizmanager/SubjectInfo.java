@@ -1,6 +1,10 @@
 package com.mcteam.quizmanager;
 
-public class SubjectInfo {
+import android.util.Log;
+
+import androidx.annotation.Nullable;
+
+public class SubjectInfo{
     String title;
     int totalQuestions=0;
     int quizMCQs=0;
