@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void GotoAttemptMode(View view) {
         //TODO: BSEF18M023! Uncomment Following Code and Create a new activity named AttempModeM023
-        /*Intent intent=new Intent(this,AttemptModeM023.class);
-        startActivity(intent);*/
+        Intent intent=new Intent(this,AttemptModeM023.class);
+        startActivity(intent);
     }
 
     public void GotoCreatorMode(View view) {
