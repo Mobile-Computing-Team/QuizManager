@@ -3,4 +3,5 @@
     <string name="create">Creator Mode</string>
     <string name="attempt">Attempt Mode</string>
     <string name="math">Math Fun</string>
+    <string name="R">Random</string>
 </resources>
