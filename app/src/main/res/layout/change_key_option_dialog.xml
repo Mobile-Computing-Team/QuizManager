@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/label_change_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Key Option: "
+        app:layout_constraintBottom_toBottomOf="@+id/change_key_input"
+        app:layout_constraintEnd_toStartOf="@+id/change_key_input"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/change_key_input" />
+
+    <RadioGroup
+        android:id="@+id/change_key_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/label_change_key"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/change_keyA_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/normal_radio_button"
+            android:checked="true"
+            android:text="Option A"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/change_keyB_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/normal_radio_button"
+            android:text="Option B"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/change_keyC_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/normal_radio_button"
+            android:text="Option C"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/change_keyD_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/normal_radio_button"
+            android:text="Option D"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

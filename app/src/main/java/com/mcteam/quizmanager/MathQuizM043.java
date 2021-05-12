@@ -160,10 +160,7 @@ public class MathQuizM043 extends AppCompatActivity {
         alert.setPositiveButton("Finish", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                Intent intent=new Intent(MathQuizM043.this,MathMainM046.class);
-                startActivity(intent);
-
+                finish();
             }
         });
         alert.setNegativeButton("Do Another One", new DialogInterface.OnClickListener() {

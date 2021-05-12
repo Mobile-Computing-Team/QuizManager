@@ -3,12 +3,11 @@ package com.mcteam.quizmanager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,20 +15,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.Callable;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewListAdapter.ViewHolder> {
     ArrayList<SubjectInfo> data;
     Context context;
     TextView message;
 
-    public RecyclerAdapter(Context context, ArrayList<SubjectInfo> data, TextView message) {
+    public SubjectViewListAdapter(Context context, ArrayList<SubjectInfo> data, TextView message) {
         this.data = data;
         this.context = context;
         this.message=message;
@@ -37,7 +32,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @NonNull
     @Override
-    public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SubjectViewListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater=LayoutInflater.from(parent.getContext());
         View view=layoutInflater.inflate(R.layout.section_item_m004,parent,false);
         ViewHolder viewHolder=new ViewHolder(view);
@@ -79,6 +74,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             qdll=itemView.findViewById(R.id.qdll);
             edit=itemView.findViewById(R.id.edit_button);
             delete=itemView.findViewById(R.id.delete_button);
+            main.setOnClickListener(this);
             delete.setOnClickListener(this);
             edit.setOnClickListener(this);
             qmcll.setOnTouchListener(this);
@@ -102,10 +98,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             final View dialogView;
             final EditText dialogEditText;
             position=findByTitle(title.getText().toString());
-            if(view.getId()==edit.getId())
+            if(view.getId()==main.getId())
+            {
+                Intent intent=new Intent(context,QuestionsManageM004.class);
+                context.startActivity(intent);
+            }
+            else if(view.getId()==edit.getId())
             {
                 dialogView=inflater.inflate(R.layout.change_title_dialog,null);
                 dialogEditText=dialogView.findViewById(R.id.sectionTitle);
+                dialogEditText.setText(data.get(position).title);
                 final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -127,7 +129,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }else{
-                            ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE); }
+                            ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
+                            ((TextView)dialogView.findViewById(R.id.error)).setText("Duplicate Title!");
+                        }
                     }
                 });
             }
@@ -163,6 +167,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 {
                     dialogView=inflater.inflate(R.layout.change_mcq_dialog,null);
                     dialogEditText=dialogView.findViewById(R.id.quiz_mcqs);
+                    dialogEditText.setText(String.valueOf(data.get(position).quizMCQs));
                     final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -190,6 +195,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 else if(view.getId()==qdll.getId())
                 {
                     dialogView=inflater.inflate(R.layout.change_duration_dialog,null);
+                    final EditText hoursInput=((EditText) dialogView.findViewById(R.id.quiz_duration_hour));
+                    final EditText minutesInput=((EditText) dialogView.findViewById(R.id.quiz_duration_minute));
+                    final EditText secondsInput=((EditText) dialogView.findViewById(R.id.quiz_duration_second));
+                    hoursInput.setText(String.format("%02d",data.get(position).hours));
+                    minutesInput.setText(String.format("%02d",data.get(position).minutes));
+                    secondsInput.setText(String.format("%02d",data.get(position).seconds));
                     final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -200,9 +211,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     positiveButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String hours=((EditText) dialogView.findViewById(R.id.quiz_duration_hour)).getText().toString();
-                            String minutes=((EditText) dialogView.findViewById(R.id.quiz_duration_minute)).getText().toString();
-                            String seconds=((EditText) dialogView.findViewById(R.id.quiz_duration_second)).getText().toString();
+                            String hours=hoursInput.getText().toString();
+                            String minutes=minutesInput.getText().toString();
+                            String seconds=secondsInput.getText().toString();
                             if(hours.isEmpty() || minutes.isEmpty() || seconds.isEmpty() || Integer.parseInt(hours)>23 ||Integer.parseInt(minutes)>59 ||Integer.parseInt(minutes)>59)
                             {
                                 ((TextView)dialogView.findViewById(R.id.error_duration)).setVisibility(View.VISIBLE);

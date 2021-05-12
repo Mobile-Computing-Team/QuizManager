@@ -3,7 +3,6 @@ package com.mcteam.quizmanager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
@@ -16,9 +15,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class CreatorModeM004 extends AppCompatActivity {
-RecyclerView recyclerView;
-RecyclerAdapter adapter;
-ArrayList<SubjectInfo> list;
+    RecyclerView recyclerView;
+    SubjectViewListAdapter adapter;
+    ArrayList<SubjectInfo> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ ArrayList<SubjectInfo> list;
         list=new ArrayList<SubjectInfo>();
         recyclerView=findViewById(R.id.section_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new RecyclerAdapter(this,list,(TextView) findViewById(R.id.message));
+        adapter=new SubjectViewListAdapter(this,list,(TextView) findViewById(R.id.message));
         recyclerView.setAdapter(adapter);
     }
     int findByTitle(String title)
@@ -68,7 +67,9 @@ ArrayList<SubjectInfo> list;
                         recyclerView.scrollToPosition(0);
                         dialog.dismiss();
                     }else{
-                        ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE); }
+                        ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
+                        ((TextView)dialogView.findViewById(R.id.error)).setText("Duplicate Title!");
+                    }
             }
         });
     }

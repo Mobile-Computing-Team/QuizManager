@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name=".MathQuizM043"></activity>
-        <activity android:name=".MathMainM046"
+        <activity android:name=".QuestionsManageM004" android:label="Creator Mode" android:theme="@style/Theme.AppCompat"/>
+        <activity android:name=".MathQuizM043" />
+        <activity
+            android:name=".MathMainM046"
             android:label="Math Fun"
-            android:theme="@style/Theme.AppCompat">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".CreatorModeM004"
             android:label="Creator Mode"
