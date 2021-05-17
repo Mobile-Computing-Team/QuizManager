@@ -44,10 +44,10 @@ public class MathMainM046 extends AppCompatActivity
             id=2;
         else
             id=3;
-        //Intent intent=new Intent(MathMainM046.this,MathQuizM043.class);
-        //intent.putExtra("operator",operator);
-        //intent.putExtra("level",id);
+        Intent intent=new Intent(MathMainM046.this,MathQuizM043.class);
+        intent.putExtra("operator",operator);
+        intent.putExtra("level",id);
         alertDialog.dismiss();
-        //startActivity(intent);
+        startActivity(intent);
     }
 }
