@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/result_item"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@color/red">
+
+    <TextView
+        android:id="@+id/result_Item_Text_View"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="Question # 1"
+        android:textStyle="italic"
+        android:paddingLeft="100dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/question_status"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/wrong_answer"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="50dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        style="?android:attr/borderlessButtonStyle"
+        />
+</LinearLayout>

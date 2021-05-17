@@ -25,4 +25,6 @@
     <color name="colorMediumR">#8A8233</color>
     <color name="colorHigh">#F61010</color>
     <color name="colorHighR">#8C1C1C</color>
+    <color name="red">#EF0A2B</color>
+    <color name="white">#FFFFFF</color>
 </resources>
