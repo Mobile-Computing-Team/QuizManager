@@ -1,8 +1,10 @@
 package com.mcteam.quizmanager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +24,34 @@ public class MathQuizM043 extends AppCompatActivity {
     long sum,mul,ans;
     Random rn;
     String op,op2;
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+
+
+        //outState.putInt("number_1", Integer.parseInt(String.valueOf(viewNum1)));
+        outState.putInt("number_1",Integer.parseInt(viewNum1.getText().toString()));
+        outState.putString("optr",viewOptr.getText().toString());
+        outState.putInt("number_2",Integer.parseInt(viewNum2.getText().toString()));
+        super.onSaveInstanceState(outState);
+
+    }
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+
+
+        randomNum1=savedInstanceState.getInt("number_1");
+        op=savedInstanceState.getString("optr");
+        randomNum2=savedInstanceState.getInt("number_2");
+
+        viewNum1.setText(String.valueOf(randomNum1));
+        viewOptr.setText(String.valueOf(op));
+        viewNum2.setText(String.valueOf(randomNum2));
+
+        super.onRestoreInstanceState(savedInstanceState);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +84,11 @@ public class MathQuizM043 extends AppCompatActivity {
         }
         display();
 
+
     }
 
     private void display(){
+
 
         if(op2.equals("r")||op2.equals("R")){
             rn=new Random();
@@ -75,17 +107,17 @@ public class MathQuizM043 extends AppCompatActivity {
                 op="÷";
             }
         }
-        randomNum1=generate_random_num();
-        if(op.equals("÷")&& randomNum1==0){
-            randomNum1++;
-        }
         randomNum2=generate_random_num();
+        if(op.equals("÷")&& randomNum2==0){
+            randomNum2++;
+        }
+        randomNum1=generate_random_num();
 
-        viewNum1.setText(String.valueOf(randomNum2));
+        viewNum1.setText(String.valueOf(randomNum1));
 
         viewOptr.setText(op);
 
-        viewNum2.setText(String.valueOf(randomNum1));
+        viewNum2.setText(String.valueOf(randomNum2));
 
         editText=findViewById(R.id.userInput);
         editText.setText("");
@@ -108,7 +140,7 @@ public class MathQuizM043 extends AppCompatActivity {
                             break;
                         case "-":
 
-                            sub=randomNum2-randomNum1;
+                            sub=randomNum1-randomNum2;
                             show_answer(op,ans,sub);
                             break;
                         case "×":
@@ -118,7 +150,7 @@ public class MathQuizM043 extends AppCompatActivity {
                             break;
                         case "÷":
 
-                            div=randomNum2/randomNum1;
+                            div=randomNum1/randomNum2;
                             show_answer(op,ans,div);
                             break;
 
