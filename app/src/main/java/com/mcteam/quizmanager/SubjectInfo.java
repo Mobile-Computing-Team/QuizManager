@@ -8,6 +8,7 @@ public class SubjectInfo {
     int minutes;
     int seconds;
 
+
     public SubjectInfo(String title) {
         this.title = title;
     }

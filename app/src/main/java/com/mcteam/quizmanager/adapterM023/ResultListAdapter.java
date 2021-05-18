@@ -18,6 +18,7 @@ import com.mcteam.quizmanager.R;
 
 import java.util.ArrayList;
 
+
 public class ResultListAdapter extends BaseAdapter {
     Context context;
     ArrayList<QuestionInfo> quizQuestions;

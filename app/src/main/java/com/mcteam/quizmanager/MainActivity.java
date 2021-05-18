@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     public void GotoAttemptMode(View view) {
         Toast.makeText(this, "Function executed", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, AttemptModeM023.class);

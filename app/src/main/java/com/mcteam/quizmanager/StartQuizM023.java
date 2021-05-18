@@ -102,6 +102,7 @@ public class StartQuizM023 extends AppCompatActivity {
                 //navigate to result
                 closeQuiz();
             }
+
             else if(submitFlag)
             {
                 //open dialouge

@@ -12,7 +12,6 @@ public class BundleM023 {
     int hour;
     int min;
     int sec;
-
     public long getTempSec() {
         return tempSec;
     }

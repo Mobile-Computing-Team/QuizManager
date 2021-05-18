@@ -29,6 +29,7 @@ public class RecViewAdapterForButtons extends RecyclerView.Adapter<RecViewAdapte
         this.arrayList = arrayList;
     }
 
+
     @NonNull
     @NotNull
     @Override

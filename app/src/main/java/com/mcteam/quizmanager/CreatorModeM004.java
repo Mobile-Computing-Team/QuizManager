@@ -13,6 +13,7 @@ RecyclerView recyclerView;
 RecyclerAdapter adapter;
 ArrayList<SubjectInfo> list;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

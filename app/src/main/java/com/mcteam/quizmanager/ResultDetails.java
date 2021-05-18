@@ -20,6 +20,7 @@ import com.mcteam.quizmanager.adapterM023.ResultListAdapter;
 
 public class ResultDetails extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

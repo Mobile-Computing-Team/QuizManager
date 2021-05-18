@@ -9,6 +9,7 @@
     android:descendantFocusability="blocksDescendants"
     android:background="@color/red">
 
+
     <TextView
         android:id="@+id/result_Item_Text_View"
         android:layout_width="wrap_content"

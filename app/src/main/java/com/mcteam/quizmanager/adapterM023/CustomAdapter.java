@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.mcteam.quizmanager.R;
 
 import java.util.ArrayList;
-
 public class CustomAdapter extends BaseAdapter {
     Context context;
     ArrayList<String> mcqNo;

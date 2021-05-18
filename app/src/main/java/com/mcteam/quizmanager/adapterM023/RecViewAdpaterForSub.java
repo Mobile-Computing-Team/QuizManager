@@ -99,6 +99,7 @@ public class RecViewAdpaterForSub extends RecyclerView.Adapter<RecViewAdpaterFor
                 if(subList.get(i).getTitle()==subText.getText())
                     break;   //it will always found in arrayList
             }
+
             //make a dialogue
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
             builder.setTitle(subText.getText());

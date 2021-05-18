@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AttemptModeM023">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recViewForSubjects"
         android:layout_width="409dp"
