@@ -36,7 +36,7 @@ public class QuestionsManageM004 extends AppCompatActivity {
     {
         for(int i=0;i<list.size();i++)
         {
-            if(list.get(i).statement.equals(statement))
+            if(list.get(i).getStatement().equals(statement))
             {
                 return i;
             }
@@ -95,19 +95,19 @@ public class QuestionsManageM004 extends AppCompatActivity {
                     list.add(0,new QuestionInfo(1,1,"",statementInput,optionAInput,optionBInput,optionCInput,optionDInput,reasonInput));
                     if(keyOptionInput==R.id.keyA_input)
                     {
-                        list.get(0).key=list.get(0).option1;
+                        list.get(0).setKey(list.get(0).getOption1());
                     }
                     else if(keyOptionInput==R.id.keyB_input)
                     {
-                        list.get(0).key=list.get(0).option2;
+                        list.get(0).setKey(list.get(0).getOption2());
                     }
                     else if(keyOptionInput==R.id.keyC_input)
                     {
-                        list.get(0).key=list.get(0).option3;
+                        list.get(0).setKey(list.get(0).getOption3());
                     }
                     else if(keyOptionInput==R.id.keyD_input)
                     {
-                        list.get(0).key=list.get(0).option4;
+                        list.get(0).setKey(list.get(0).getOption4());
                     }
                     adapter.notifyItemInserted(0);
                     recyclerView.scrollToPosition(0);

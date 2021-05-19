@@ -54,9 +54,7 @@ public class QuestionInfo {
         this.option4 = option4;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+    public void setReason(String reason) { this.reason = (reason.isEmpty()?"None":reason); }
 
     public int getId() {
         return id;

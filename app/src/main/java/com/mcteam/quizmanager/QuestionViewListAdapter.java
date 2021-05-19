@@ -40,7 +40,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
 
     @Override
     public void onBindViewHolder(@NonNull QuestionViewListAdapter.ViewHolder holder, int position) {
-        holder.statement.setText(data.get(position).statement);
+        holder.statement.setText(data.get(position).getStatement());
     }
 
     @Override
@@ -90,7 +90,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
         {
             for(int i=0;i<data.size();i++)
             {
-                if(data.get(i).statement.equals(statement))
+                if(data.get(i).getStatement().equals(statement))
                 {
                     return i;
                 }
@@ -109,13 +109,13 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
             if(view.getId()==main.getId())
             {
                 dialogView=inflater.inflate(R.layout.question_details_dialog,null);
-                ((TextView)dialogView.findViewById(R.id.detail_statement)).setText(data.get(position).statement);
-                ((TextView)dialogView.findViewById(R.id.detail_optionA)).setText(data.get(position).option1);
-                ((TextView)dialogView.findViewById(R.id.detail_optionB)).setText(data.get(position).option2);
-                ((TextView)dialogView.findViewById(R.id.detail_optionC)).setText(data.get(position).option3);
-                ((TextView)dialogView.findViewById(R.id.detail_optionD)).setText(data.get(position).option4);
-                ((TextView)dialogView.findViewById(R.id.detail_key_option)).setText(data.get(position).key);
-                ((TextView)dialogView.findViewById(R.id.detail_reason)).setText(data.get(position).reason);
+                ((TextView)dialogView.findViewById(R.id.detail_statement)).setText(data.get(position).getStatement());
+                ((TextView)dialogView.findViewById(R.id.detail_optionA)).setText(data.get(position).getOption1());
+                ((TextView)dialogView.findViewById(R.id.detail_optionB)).setText(data.get(position).getOption2());
+                ((TextView)dialogView.findViewById(R.id.detail_optionC)).setText(data.get(position).getOption3());
+                ((TextView)dialogView.findViewById(R.id.detail_optionD)).setText(data.get(position).getOption4());
+                ((TextView)dialogView.findViewById(R.id.detail_key_option)).setText(data.get(position).getKey());
+                ((TextView)dialogView.findViewById(R.id.detail_reason)).setText(data.get(position).getReason());
                 builder.setTitle("Question Details").setNegativeButton("Close", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -128,7 +128,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                 dialogView=inflater.inflate(R.layout.change_title_dialog,null);
                 dialogEditText=dialogView.findViewById(R.id.sectionTitle);
                 dialogEditText.setHint("Enter Question Statement");
-                dialogEditText.setText(data.get(position).statement);
+                dialogEditText.setText(data.get(position).getStatement());
                 TextView inputLabel=dialogView.findViewById(R.id.input_label);
                 inputLabel.setText("Question Statement: ");
                 final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -148,7 +148,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Statement Can't be Empty!");
                         }
                         else if(findByStatement(newStatement)==-1) {
-                            data.get(position).statement=dialogEditText.getText().toString();
+                            data.get(position).setStatement(dialogEditText.getText().toString());
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }else{
@@ -180,7 +180,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                 dialogView=inflater.inflate(R.layout.change_title_dialog,null);
                 dialogEditText=dialogView.findViewById(R.id.sectionTitle);
                 dialogEditText.setHint("Enter Option A");
-                dialogEditText.setText(data.get(position).option1);
+                dialogEditText.setText(data.get(position).getOption1());
                 TextView inputLabel=dialogView.findViewById(R.id.input_label);
                 inputLabel.setText("Option A: ");
                 final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -200,11 +200,11 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Option A Can't be Empty!");
                         }
                         else{
-                            if(data.get(position).option1==data.get(position).key)
+                            if(data.get(position).getOption1()==data.get(position).getKey())
                             {
-                                data.get(position).key=newOptionA;
+                                data.get(position).setKey(newOptionA);
                             }
-                            data.get(position).option1=newOptionA;
+                            data.get(position).setOption1(newOptionA);
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }
@@ -216,7 +216,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                 dialogView=inflater.inflate(R.layout.change_title_dialog,null);
                 dialogEditText=dialogView.findViewById(R.id.sectionTitle);
                 dialogEditText.setHint("Enter Option B");
-                dialogEditText.setText(data.get(position).option2);
+                dialogEditText.setText(data.get(position).getOption2());
                 TextView inputLabel=dialogView.findViewById(R.id.input_label);
                 inputLabel.setText("Option B: ");
                 final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -236,11 +236,11 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Option B Can't be Empty!");
                         }
                         else{
-                            if(data.get(position).option2==data.get(position).key)
+                            if(data.get(position).getOption2()==data.get(position).getKey())
                             {
-                                data.get(position).key=newOptionB;
+                                data.get(position).setKey(newOptionB);
                             }
-                            data.get(position).option2=newOptionB;
+                            data.get(position).setOption2(newOptionB);
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }
@@ -252,7 +252,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                 dialogView=inflater.inflate(R.layout.change_title_dialog,null);
                 dialogEditText=dialogView.findViewById(R.id.sectionTitle);
                 dialogEditText.setHint("Enter Option C");
-                dialogEditText.setText(data.get(position).option3);
+                dialogEditText.setText(data.get(position).getOption3());
                 TextView inputLabel=dialogView.findViewById(R.id.input_label);
                 inputLabel.setText("Option C: ");
                 final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -272,11 +272,11 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Option C Can't be Empty!");
                         }
                         else{
-                            if(data.get(position).option3==data.get(position).key)
+                            if(data.get(position).getOption3()==data.get(position).getKey())
                             {
-                                data.get(position).key=newOptionC;
+                                data.get(position).setKey(newOptionC);
                             }
-                            data.get(position).option3=newOptionC;
+                            data.get(position).setOption3(newOptionC);
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }
@@ -288,7 +288,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                 dialogView=inflater.inflate(R.layout.change_title_dialog,null);
                 dialogEditText=dialogView.findViewById(R.id.sectionTitle);
                 dialogEditText.setHint("Enter Option D");
-                dialogEditText.setText(data.get(position).option4);
+                dialogEditText.setText(data.get(position).getOption4());
                 TextView inputLabel=dialogView.findViewById(R.id.input_label);
                 inputLabel.setText("Option D: ");
                 final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -308,11 +308,11 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Option D Can't be Empty!");
                         }
                         else{
-                            if(data.get(position).option4==data.get(position).key)
+                            if(data.get(position).getOption4()==data.get(position).getKey())
                             {
-                                data.get(position).key=newOptionD;
+                                data.get(position).setKey(newOptionD);
                             }
-                            data.get(position).option4=newOptionD;
+                            data.get(position).setOption4(newOptionD);
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }
@@ -322,18 +322,18 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
             else if(view.getId()==keyOption.getId())
             {
                 dialogView=inflater.inflate(R.layout.change_key_option_dialog,null);
-                String key=data.get(position).key;
-                if(key.equals(data.get(position).option2))
+                String key=data.get(position).getKey();
+                if(key.equals(data.get(position).getOption2()))
                 {
                     ((RadioButton)dialogView.findViewById(R.id.change_keyA_input)).setChecked(false);
                     ((RadioButton)dialogView.findViewById(R.id.change_keyB_input)).setChecked(true);
                 }
-                else if(key.equals(data.get(position).option3))
+                else if(key.equals(data.get(position).getOption3()))
                 {
                     ((RadioButton)dialogView.findViewById(R.id.change_keyA_input)).setChecked(false);
                     ((RadioButton)dialogView.findViewById(R.id.change_keyC_input)).setChecked(true);
                 }
-                else if(key.equals(data.get(position).option4))
+                else if(key.equals(data.get(position).getOption4()))
                 {
                     ((RadioButton)dialogView.findViewById(R.id.change_keyA_input)).setChecked(false);
                     ((RadioButton)dialogView.findViewById(R.id.change_keyD_input)).setChecked(true);
@@ -351,19 +351,19 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                         int keyChangeInput=((RadioGroup)dialogView.findViewById(R.id.change_key_input)).getCheckedRadioButtonId();
                         if(keyChangeInput==R.id.change_keyA_input)
                         {
-                            data.get(position).key=data.get(position).option1;
+                            data.get(position).setKey(data.get(position).getOption1());
                         }
                         else if(keyChangeInput==R.id.change_keyB_input)
                         {
-                            data.get(position).key=data.get(position).option2;
+                            data.get(position).setKey(data.get(position).getOption2());
                         }
                         else if(keyChangeInput==R.id.change_keyC_input)
                         {
-                            data.get(position).key=data.get(position).option3;
+                            data.get(position).setKey(data.get(position).getOption3());
                         }
                         else if(keyChangeInput==R.id.change_keyD_input)
                         {
-                            data.get(position).key=data.get(position).option4;
+                            data.get(position).setKey(data.get(position).getOption4());
                         }
                         notifyItemChanged(position);
                         dialog.dismiss();
@@ -375,9 +375,9 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                 dialogView=inflater.inflate(R.layout.change_title_dialog,null);
                 dialogEditText=dialogView.findViewById(R.id.sectionTitle);
                 dialogEditText.setHint("Enter Reason");
-                if(!data.get(position).reason.equals("None"))
+                if(!data.get(position).getReason().equals("None"))
                 {
-                    dialogEditText.setText(data.get(position).reason);
+                    dialogEditText.setText(data.get(position).getReason());
                 }
                 TextView inputLabel=dialogView.findViewById(R.id.input_label);
                 inputLabel.setText("Reason: ");
@@ -392,13 +392,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                     @Override
                     public void onClick(View view) {
                         String newReason=dialogEditText.getText().toString();
-                        if(newReason.isEmpty())
-                        {
-                            data.get(position).reason="None";
-                        }
-                        else{
-                            data.get(position).reason=dialogEditText.getText().toString();
-                        }
+                        data.get(position).setReason(newReason);
                         notifyItemChanged(position);
                         dialog.dismiss();
                     }
