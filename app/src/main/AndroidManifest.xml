@@ -11,6 +11,8 @@
         android:theme="@style/Theme.Design.NoActionBar">
         <activity android:name=".QuestionsManageM004" android:label="Creator Mode" android:theme="@style/Theme.AppCompat"/>
         <activity android:name=".MathQuizM043" />
+        <activity android:name=".AttemptModeM023" />
+        <activity android:name=".StartQuizM023" />
         <activity
             android:name=".MathMainM046"
             android:label="Math Fun"
