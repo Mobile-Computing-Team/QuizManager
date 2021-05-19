@@ -32,7 +32,7 @@ public class DBHelper {
     {
         return new ArrayList<SubjectInfo>();
     }
-    ArrayList<QuestionInfo>getQuestionsListOfSection()
+    ArrayList<QuestionInfo>getQuestionsListOfSubject(int subjectId)
     {
         return new ArrayList<QuestionInfo>();
     }

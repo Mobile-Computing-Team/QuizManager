@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -311,22 +312,20 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
             else if(view.getId()==keyOption.getId())
             {
                 dialogView=inflater.inflate(R.layout.change_key_option_dialog,null);
-                ((RadioButton)dialogView.findViewById(R.id.change_keyA_input)).setChecked(false);
                 String key=data.get(position).key;
-                if(key.equals(data.get(position).option1))
+                if(key.equals(data.get(position).option2))
                 {
-                    ((RadioButton)dialogView.findViewById(R.id.change_keyA_input)).setChecked(true);
-                }
-                else if(key.equals(data.get(position).option2))
-                {
+                    ((RadioButton)dialogView.findViewById(R.id.change_keyA_input)).setChecked(false);
                     ((RadioButton)dialogView.findViewById(R.id.change_keyB_input)).setChecked(true);
                 }
                 else if(key.equals(data.get(position).option3))
                 {
+                    ((RadioButton)dialogView.findViewById(R.id.change_keyA_input)).setChecked(false);
                     ((RadioButton)dialogView.findViewById(R.id.change_keyC_input)).setChecked(true);
                 }
                 else if(key.equals(data.get(position).option4))
                 {
+                    ((RadioButton)dialogView.findViewById(R.id.change_keyA_input)).setChecked(false);
                     ((RadioButton)dialogView.findViewById(R.id.change_keyD_input)).setChecked(true);
                 }
                 final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
