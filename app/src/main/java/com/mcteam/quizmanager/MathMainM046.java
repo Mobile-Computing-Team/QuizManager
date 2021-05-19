@@ -23,6 +23,7 @@ public class MathMainM046 extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_math_main_m046);
     }
+
     public void ShowDialogM046(View view)
     {
         operator=((Button)view).getText().toString();

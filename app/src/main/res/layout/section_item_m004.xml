@@ -9,6 +9,7 @@
     android:clickable="true"
     android:orientation="vertical">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cls"
         android:layout_width="match_parent"

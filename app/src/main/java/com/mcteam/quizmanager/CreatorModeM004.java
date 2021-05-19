@@ -19,6 +19,7 @@ public class CreatorModeM004 extends AppCompatActivity {
     SubjectViewListAdapter adapter;
     ArrayList<SubjectInfo> list;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

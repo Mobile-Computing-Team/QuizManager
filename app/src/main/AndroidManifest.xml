@@ -8,19 +8,25 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Design.NoActionBar">
+        android:theme="@style/Theme.Design.NoActionBar"
+        android:fullBackupContent="true">
         <activity android:name=".QuestionsManageM004" android:label="Creator Mode" android:theme="@style/Theme.AppCompat"/>
-        <activity android:name=".MathQuizM043" />
-        <activity android:name=".AttemptModeM023" />
-        <activity android:name=".StartQuizM023" />
         <activity
             android:name=".MathMainM046"
             android:label="Math Fun"
             android:theme="@style/Theme.AppCompat" />
         <activity
+            android:name=".ResultDetails"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".CreatorModeM004"
             android:label="Creator Mode"
             android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".StartQuizM023"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity android:name=".AttemptModeM023" />
+        <activity android:name=".MathQuizM043" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,5 +35,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

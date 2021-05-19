@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,9 +22,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     public void GotoAttemptMode(View view) {
-        //TODO: BSEF18M023! Uncomment Following Code and Create a new activity named AttempModeM023
-        Intent intent=new Intent(this,AttemptModeM023.class);
+        Toast.makeText(this, "Function executed", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, AttemptModeM023.class);
         startActivity(intent);
     }
 
@@ -30,4 +33,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(this,CreatorModeM004.class);
         startActivity(intent);
     }
+
 }
