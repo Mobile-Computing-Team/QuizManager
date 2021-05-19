@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 public class SubjectInfo{
+    int id;
     String title;
     int totalQuestions=0;
     int quizMCQs=0;
@@ -17,10 +18,14 @@ public class SubjectInfo{
         this.title = title;
     }
 
-    public SubjectInfo(String title, int totalQuestions, int quizMCQs) {
+    public SubjectInfo(int id, String title, int totalQuestions, int quizMCQs, int hours, int minutes, int seconds) {
+        this.id = id;
         this.title = title;
         this.totalQuestions = totalQuestions;
         this.quizMCQs = quizMCQs;
+        this.hours = hours;
+        this.minutes = minutes;
+        this.seconds = seconds;
     }
 
     public SubjectInfo(String title, int totalQuestions, int quizMCQs, int hours, int minutes, int seconds) {
