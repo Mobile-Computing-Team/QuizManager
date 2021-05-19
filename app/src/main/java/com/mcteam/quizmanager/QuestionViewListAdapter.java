@@ -1,27 +1,21 @@
 package com.mcteam.quizmanager;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -39,10 +33,9 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
     @NonNull
     @Override
     public QuestionViewListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater=LayoutInflater.from(parent.getContext());
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view=layoutInflater.inflate(R.layout.question_item_m004,parent,false);
-        QuestionViewListAdapter.ViewHolder viewHolder=new QuestionViewListAdapter.ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -105,6 +98,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
             return -1;
         }
 
+        @SuppressLint("InflateParams")
         @Override
         public void onClick(final View view) {
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
@@ -206,7 +200,11 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Option A Can't be Empty!");
                         }
                         else{
-                            data.get(position).option1=dialogEditText.getText().toString();
+                            if(data.get(position).option1==data.get(position).key)
+                            {
+                                data.get(position).key=newOptionA;
+                            }
+                            data.get(position).option1=newOptionA;
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }
@@ -238,7 +236,11 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Option B Can't be Empty!");
                         }
                         else{
-                            data.get(position).option2=dialogEditText.getText().toString();
+                            if(data.get(position).option2==data.get(position).key)
+                            {
+                                data.get(position).key=newOptionB;
+                            }
+                            data.get(position).option2=newOptionB;
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }
@@ -270,7 +272,11 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Option C Can't be Empty!");
                         }
                         else{
-                            data.get(position).option3=dialogEditText.getText().toString();
+                            if(data.get(position).option3==data.get(position).key)
+                            {
+                                data.get(position).key=newOptionC;
+                            }
+                            data.get(position).option3=newOptionC;
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }
@@ -302,7 +308,11 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Option D Can't be Empty!");
                         }
                         else{
-                            data.get(position).option4=dialogEditText.getText().toString();
+                            if(data.get(position).option4==data.get(position).key)
+                            {
+                                data.get(position).key=newOptionD;
+                            }
+                            data.get(position).option4=newOptionD;
                             notifyItemChanged(position);
                             dialog.dismiss();
                         }
