@@ -10,7 +10,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -35,12 +37,12 @@ public class StartQuizM023 extends AppCompatActivity {
     public static int[]userAnswers;
     public static boolean[]flagQues;
     public static ArrayList<String> solved;
-    ArrayList<String> mcqNo; //it will passed to adapter
-    long tempSec;            //temporary variable for time storing which will also help out in bundle saving on screen rotation
-    int hour;
-    int min;
-    int sec;
-    CountDownTimer timerSave;
+    public static ArrayList<String> mcqNo; //it will passed to adapter
+    public static long tempSec;            //temporary variable for time storing which will also help out in bundle saving on screen rotation
+    public static int hour;
+    public static int min;
+    public static int sec;
+    public static CountDownTimer timerSave;
 
     static RadioGroup radioGroup;
     static TextView questionTitle;
@@ -49,13 +51,15 @@ public class StartQuizM023 extends AppCompatActivity {
     static RadioButton option3;
     static RadioButton option4;
     static TextView timeView;
-    boolean finishFlag;       //it will used to indicate finished time
-    boolean submitFlag;       //it will used to indicate that we are in submit function
+    static TextView questonNumber;
+    static TextView flagTextView;
+    public static boolean finishFlag;       //it will used to indicate finished time
+    public static boolean submitFlag;       //it will used to indicate that we are in submit function
 
-    //static RecyclerView recyclerView;
-    //RecViewButtonAdapter recyclerViewAdapter;
-    CustomAdapter adapter;
-    ListView listView;
+
+
+    public static CustomAdapter adapter;
+    public static ListView listView;
 
 
 
@@ -123,6 +127,8 @@ public class StartQuizM023 extends AppCompatActivity {
         ////recyclerView.setAdapter(recyclerViewAdapter);
 
         //setting counter
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);   //now screen will remain on
         timerSave=new CountDownTimer(hour*3600000+min*60000+sec*1000,1000) {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -137,7 +143,9 @@ public class StartQuizM023 extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
-                //hourView.setText(String.valueOf(0));
+
+
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); //now no need to keep screen on, quiz is over
                 //same work as of submit button
                 finishFlag=true;
                 if(submitFlag==false)
@@ -169,12 +177,14 @@ public class StartQuizM023 extends AppCompatActivity {
     public void initializeViews()
     {
         timeView=findViewById(R.id.timeTextView);
+        questonNumber=findViewById(R.id.question_number);
         questionTitle=findViewById(R.id.quesTitle);
         radioGroup=findViewById(R.id.radioGroup);
         option1=findViewById(R.id.radioButton);
         option2=findViewById(R.id.radioButton2);
         option3=findViewById(R.id.radioButton3);
         option4=findViewById(R.id.radioButton4);
+        flagTextView=findViewById(R.id.flagOption);
     }
     public void radioClicked(View view) {
         radioGroup=findViewById(R.id.radioGroup);
@@ -201,8 +211,7 @@ public class StartQuizM023 extends AppCompatActivity {
         //send currQues to preprocessing to make this button inner as white
     }
 
-    @SuppressLint("ResourceAsColor")
-    public static void generateQuestion(int quesNo)
+    public void generateQuestion(int quesNo)
     {
         if(preQues!=-1)
         {
@@ -216,6 +225,7 @@ public class StartQuizM023 extends AppCompatActivity {
 
         //send currQues to preprocessing to make button outer as blue
         //initializeViews();
+        questonNumber.setText(String.valueOf(quesNo+1)+"/"+String.valueOf(RecViewAdpaterForSub.mcqCount));
         questionTitle.setText(RecViewAdpaterForSub.quizQuestions.get(quesNo).getStatement());
         option1.setText(RecViewAdpaterForSub.quizQuestions.get(quesNo).getOption1());
         option2.setText(RecViewAdpaterForSub.quizQuestions.get(quesNo).getOption2());
@@ -233,7 +243,7 @@ public class StartQuizM023 extends AppCompatActivity {
         else if(userAnswers[quesNo]==4)
             option4.setChecked(true);
 
-
+        flagTextView.setTextColor(flagQues[currQues]?getResources().getColor(R.color.red):getResources().getColor(R.color.colorPrimary));
         preQues=currQues;
     }
 
@@ -257,8 +267,9 @@ public class StartQuizM023 extends AppCompatActivity {
         //{
             //View itemView=listView.getChildAt(currQues);
             //ImageButton imgBtn=itemView.findViewById(R.id.flag);
-            flagQues[currQues]=!flagQues[currQues];               //toggle value
-            adapter.notifyDataSetChanged();
+        flagQues[currQues]=!flagQues[currQues];               //toggle value
+        flagTextView.setTextColor(flagQues[currQues]?getResources().getColor(R.color.red):getResources().getColor(R.color.colorPrimary));
+        adapter.notifyDataSetChanged();
         //}
     }
 
