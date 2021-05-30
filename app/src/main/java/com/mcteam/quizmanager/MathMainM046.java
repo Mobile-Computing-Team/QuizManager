@@ -1,11 +1,13 @@
 package com.mcteam.quizmanager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,13 +19,13 @@ public class MathMainM046 extends AppCompatActivity
     String operator;
     int id;
     AlertDialog alertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_math_main_m046);
     }
-
     public void ShowDialogM046(View view)
     {
         operator=((Button)view).getText().toString();
@@ -36,7 +38,7 @@ public class MathMainM046 extends AppCompatActivity
         alertDialog=builder.create();
         alertDialog.show();
     }
-    public void MathQuiz(View view)
+    public void MathQuizM046(View view)
     {
         String lvl=((Button)view).getText().toString();
         if(lvl.equals("Low"))
