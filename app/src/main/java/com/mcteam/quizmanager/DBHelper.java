@@ -1,6 +1,8 @@
 package com.mcteam.quizmanager;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -35,13 +37,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE3_NAME="Creator_Password";
     public static final String[] TABLE3_COLUMNS={"Password"};
     static BundleM023 tempStorage;
-
     public DBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
-
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+    public void onCreate(SQLiteDatabase sqLiteDatabase)
+    {
         //Creating these Variables to avoid an error
         String temp1=TABLE1_COLUMNS[0];
         String temp2=TABLE2_COLUMNS[0];
@@ -50,84 +51,237 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("create table "+TABLE2_NAME+" ("+temp2+" INTEGER PRIMARY KEY AUTOINCREMENT,"+TABLE2_COLUMNS[1]+" INTEGER,"+TABLE2_COLUMNS[2]+" TEXT,"+TABLE2_COLUMNS[3]+" TEXT,"+TABLE2_COLUMNS[4]+" TEXT,"+TABLE2_COLUMNS[5]+" TEXT,"+TABLE2_COLUMNS[6]+" TEXT,"+TABLE2_COLUMNS[7]+" TEXT,"+TABLE2_COLUMNS[8]+" TEXT,FOREIGN KEY("+TABLE2_COLUMNS[1]+") REFERENCES "+TABLE1_NAME+"("+TABLE1_COLUMNS[0]+"));");
         sqLiteDatabase.execSQL("create table "+TABLE3_NAME+" ("+temp3+" TEXT);");
     }
-
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1)
+    {
         sqLiteDatabase.execSQL("drop table if exists "+TABLE1_NAME);
         sqLiteDatabase.execSQL("drop table if exists "+TABLE2_NAME);
         sqLiteDatabase.execSQL("drop table if exists "+TABLE3_NAME);
         onCreate(sqLiteDatabase);
     }
+    public boolean addPassword(String password)
+    {
+        if(isPasswordTableEmpty()==true) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(TABLE3_COLUMNS[1], password);
+            long result = db.insert(TABLE3_NAME, null, contentValues);
+            db.close();
+            if (result == -1)
+                return false;
+            else
+                return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public boolean updatePassword(String updatedPassword)
+    {
+        if(isPasswordTableEmpty()==false)
+        {
+            SQLiteDatabase db=this.getWritableDatabase();
+            ContentValues contentValues=new ContentValues();
+            contentValues.put(TABLE3_COLUMNS[0],updatedPassword);
+            db.update(TABLE3_NAME,contentValues,"a=?",new String[]{"a"});
+            db.close();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public boolean isPasswordTableEmpty()
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        String query="SELECT * FROM "+ TABLE3_NAME;
+        Cursor cursor=db.rawQuery(query,null);
+        db.close();
+        if(cursor.getCount()==0) {
+            cursor.close();
+            return true;
+        }
+        else {
+            cursor.close();
+            return false;
+        }
+    }
     public boolean isCreator(String Password)
     {
         //TODO: BSEF18M046, Function No.1
-        /*This function will search the *Password* in
-        database table "TABLE3_NAME" if found returns
-        true otherwise false*/
-        return true;
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE3_NAME,null);
+        db.close();
+        if(cursor.moveToFirst())
+        {
+            if(cursor.getString(0)==Password) {
+                cursor.close();
+                return true;
+            }
+            else {
+                cursor.close();
+                return false;
+            }
+        }
+        else
+        {
+            cursor.close();
+            return false;
+        }
     }
     public boolean addSubject(SubjectInfo newSubjectInfo)
     {
         //TODO: BSEF18M046, Function No.2
-        /*This function will insert subject
-        "newSubjectInfo" to database table "TABLE1_NAME"*/
-        return true;
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(TABLE1_COLUMNS[0],newSubjectInfo.id);
+        contentValues.put(TABLE1_COLUMNS[1],newSubjectInfo.title);
+        contentValues.put(TABLE1_COLUMNS[2],newSubjectInfo.quizMCQs);
+        contentValues.put(TABLE1_COLUMNS[3],newSubjectInfo.hours);
+        contentValues.put(TABLE1_COLUMNS[4],newSubjectInfo.minutes);
+        contentValues.put(TABLE1_COLUMNS[5],newSubjectInfo.seconds);
+        long result=db.insert(TABLE1_NAME,null,contentValues);
+        db.close();
+        if(result==-1)
+            return false;
+        else
+            return true;
     }
     public boolean removeSubject(int subjectId)
     {
         //TODO: BSEF18M046, Function No.3
+        SQLiteDatabase db=this.getWritableDatabase();
+        int delete=db.delete(TABLE1_NAME,"TABLE1_COLUMNS[0]=?",new String[] {Integer.toString(subjectId)});
+        db.close();
+        if(delete>0)
+            return true;
+        else
+            return false;
         /*This function will remove subject
         having *Id* "subjectId" from database
         table "TABLE1_NAME"*/
-        return true;
     }
     public boolean updateSubject(int subjectId, SubjectInfo updatedSubjectInfo)
     {
         //TODO: BSEF18M046, Function No.4
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(TABLE1_COLUMNS[0],updatedSubjectInfo.id);
+        contentValues.put(TABLE1_COLUMNS[1],updatedSubjectInfo.title);
+        contentValues.put(TABLE1_COLUMNS[2],updatedSubjectInfo.quizMCQs);
+        contentValues.put(TABLE1_COLUMNS[3],updatedSubjectInfo.hours);
+        contentValues.put(TABLE1_COLUMNS[4],updatedSubjectInfo.minutes);
+        contentValues.put(TABLE1_COLUMNS[5],updatedSubjectInfo.seconds);
+        long res=db.update(TABLE1_NAME,contentValues,"TABLE1_COLUMNS[0]=?",new String[] {Integer.toString(subjectId)});
+        if(res>0)
+            return true;
+        else
+            return false;
         /*This function will update subject having
         *Id* "subjectId" to "updatedSubjectInfo" in database
         table "TABLE1_NAME"*/
-        return true;
     }
     public boolean addQuestion(QuestionInfo newQuestionInfo)
     {
         //TODO: BSEF18M046, Function No.5
-        /*This function will insert question
-        "newQuestionInfo" to database table "TABLE2_NAME"*/
-        return true;
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(TABLE2_COLUMNS[1],newQuestionInfo.sectionId);
+        contentValues.put(TABLE2_COLUMNS[2],newQuestionInfo.statement);
+        contentValues.put(TABLE2_COLUMNS[3],newQuestionInfo.option1);
+        contentValues.put(TABLE2_COLUMNS[4],newQuestionInfo.option2);
+        contentValues.put(TABLE2_COLUMNS[5],newQuestionInfo.option3);
+        contentValues.put(TABLE2_COLUMNS[6],newQuestionInfo.option4);
+        contentValues.put(TABLE2_COLUMNS[7],newQuestionInfo.key);
+        contentValues.put(TABLE2_COLUMNS[8],newQuestionInfo.reason);
+        long result=db.insert(TABLE1_NAME,null,contentValues);
+        if(result==-1)
+            return false;
+        else
+            return true;
     }
     public boolean removeQuestion(int questionId)
     {
         //TODO: BSEF18M046, Function No.6
+        SQLiteDatabase db=this.getWritableDatabase();
+        int delete=db.delete(TABLE2_NAME,"TABLE2_COLUMNS[0]=?",new String[] {Integer.toString(questionId)});
+        if(delete>0)
+            return true;
+        else
+            return false;
         /*This function will remove question
         having *Id* "questionId" from database
         table "TABLE2_NAME"*/
-        return true;
     }
     public boolean updateQuestion(int questionId, QuestionInfo updatedQuestionInfo)
     {
         //TODO: BSEF18M046, Function No.7
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(TABLE2_COLUMNS[0],updatedQuestionInfo.id);
+        contentValues.put(TABLE2_COLUMNS[1],updatedQuestionInfo.sectionId);
+        contentValues.put(TABLE2_COLUMNS[2],updatedQuestionInfo.statement);
+        contentValues.put(TABLE2_COLUMNS[3],updatedQuestionInfo.option1);
+        contentValues.put(TABLE2_COLUMNS[4],updatedQuestionInfo.option2);
+        contentValues.put(TABLE2_COLUMNS[5],updatedQuestionInfo.option3);
+        contentValues.put(TABLE2_COLUMNS[6],updatedQuestionInfo.option4);
+        contentValues.put(TABLE2_COLUMNS[7],updatedQuestionInfo.key);
+        contentValues.put(TABLE2_COLUMNS[8],updatedQuestionInfo.reason);
+        long res=db.update(TABLE2_NAME,contentValues,"TABLE2_COLUMNS[0]=?",new String[] {Integer.toString(questionId)});
+        if(res>0)
+            return true;
+        else
+            return false;
         /*This function will update question having
         *Id* "questionId" to "updatedQuestionInfo" in database
         table "TABLE2_NAME"*/
-        return true;
     }
     public ArrayList<SubjectInfo> getSubjectsList()
     {
         //TODO: BSEF18M046, Function No.8
+        ArrayList<SubjectInfo> myArrayList=new ArrayList<SubjectInfo>();
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE1_NAME,null);
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                SubjectInfo newSubjectInfo=new SubjectInfo(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getInt(3),cursor.getInt(4),cursor.getInt(5),cursor.getInt(6));
+                myArrayList.add(newSubjectInfo);
+            }while (cursor.moveToNext());
+        }
+        db.close();
+        cursor.close();
+        return myArrayList;
         /*This function will retrieve all subjects
         from database table "TABLE1_NAME" in the form
         of an "ArrayList<SubjectInfo>"*/
-        return new ArrayList<SubjectInfo>();
     }
     public ArrayList<QuestionInfo>getQuestionsListOfSubject(int subjectId)
     {
         //TODO: BSEF18M046, Function No.9
+        ArrayList<QuestionInfo> myArrayList=new ArrayList<QuestionInfo>();
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE2_NAME,null);
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                if(cursor.getInt(0)==subjectId) {
+                    QuestionInfo newQuestionInfo = new QuestionInfo(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8));
+                    myArrayList.add(newQuestionInfo);
+                }
+            }while (cursor.moveToNext());
+        }
+        db.close();
+        cursor.close();
+        return myArrayList;
         /*This function will retrieve all questions
         having *Subject_Id* "subjectId" from database
         table "TABLE2_NAME" in the form of an
         "ArrayList<QuestionInfo>"*/
-        return new ArrayList<QuestionInfo>();
     }
 
     public static void storeBundle(BundleM023 bundleM023) {
