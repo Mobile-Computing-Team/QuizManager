@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ public class CreatorModeM004 extends AppCompatActivity {
     SubjectViewListAdapter adapter;
     ArrayList<SubjectInfo> list;
     DBHelper db;
+    static boolean hasComeFromQuestions=false;
 
 
     @Override
@@ -40,6 +42,18 @@ public class CreatorModeM004 extends AppCompatActivity {
         adapter=new SubjectViewListAdapter(this,list,(TextView) findViewById(R.id.message),db);
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(hasComeFromQuestions)
+        {
+            list=db.getSubjectsList();
+            adapter.data=list;
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     int findByTitle(String title)
     {
         for(int i=0;i<list.size();i++)

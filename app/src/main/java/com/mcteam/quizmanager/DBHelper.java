@@ -49,7 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String temp2=TABLE2_COLUMNS[0];
         String temp3=TABLE3_COLUMNS[0];
         sqLiteDatabase.execSQL("create table "+TABLE1_NAME+" ("+temp1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+TABLE1_COLUMNS[1]+" TEXT,"+TABLE1_COLUMNS[2]+" INTEGER,"+TABLE1_COLUMNS[3]+" INTEGER,"+TABLE1_COLUMNS[4]+" INTEGER,"+TABLE1_COLUMNS[5]+" INTEGER,CONSTRAINT title_unique_key UNIQUE ("+TABLE1_COLUMNS[1]+"));");
-        sqLiteDatabase.execSQL("create table "+TABLE2_NAME+" ("+temp2+" INTEGER PRIMARY KEY AUTOINCREMENT,"+TABLE2_COLUMNS[1]+" INTEGER,"+TABLE2_COLUMNS[2]+" TEXT,"+TABLE2_COLUMNS[3]+" TEXT,"+TABLE2_COLUMNS[4]+" TEXT,"+TABLE2_COLUMNS[5]+" TEXT,"+TABLE2_COLUMNS[6]+" TEXT,"+TABLE2_COLUMNS[7]+" TEXT,"+TABLE2_COLUMNS[8]+" TEXT,FOREIGN KEY("+TABLE2_COLUMNS[1]+") REFERENCES "+TABLE1_NAME+"("+TABLE1_COLUMNS[0]+"),CONSTRAINT statement_unique_key UNIQUE ("+TABLE2_COLUMNS[2]+"));");
+        sqLiteDatabase.execSQL("create table "+TABLE2_NAME+" ("+temp2+" INTEGER PRIMARY KEY AUTOINCREMENT,"+TABLE2_COLUMNS[1]+" INTEGER,"+TABLE2_COLUMNS[2]+" TEXT,"+TABLE2_COLUMNS[3]+" TEXT,"+TABLE2_COLUMNS[4]+" TEXT,"+TABLE2_COLUMNS[5]+" TEXT,"+TABLE2_COLUMNS[6]+" TEXT,"+TABLE2_COLUMNS[7]+" TEXT,"+TABLE2_COLUMNS[8]+" TEXT,FOREIGN KEY("+TABLE2_COLUMNS[1]+") REFERENCES "+TABLE1_NAME+"("+TABLE1_COLUMNS[0]+") ON DELETE CASCADE,CONSTRAINT statement_unique_key UNIQUE ("+TABLE2_COLUMNS[2]+"));");
         sqLiteDatabase.execSQL("create table "+TABLE3_NAME+" ("+temp3+" TEXT);");
     }
     @Override
@@ -272,7 +272,8 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE1_NAME,null);
         if(cursor.moveToFirst()) {
             do {
-                SubjectInfo newSubjectInfo = new SubjectInfo(cursor.getInt(0), cursor.getString(1),getQuestionsListOfSubject(cursor.getInt(0)).size(), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
+                int quesCount=getQuestionsListOfSubject(cursor.getInt(0)).size();
+                SubjectInfo newSubjectInfo = new SubjectInfo(cursor.getInt(0), cursor.getString(1),quesCount, cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
                 myArrayList.add(newSubjectInfo);
             } while (cursor.moveToNext());
         }
@@ -293,7 +294,7 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             do
             {
-                if(cursor.getInt(0)==subjectId) {
+                if(cursor.getInt(1)==subjectId) {
                     QuestionInfo newQuestionInfo = new QuestionInfo(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8));
                     myArrayList.add(newQuestionInfo);
                 }

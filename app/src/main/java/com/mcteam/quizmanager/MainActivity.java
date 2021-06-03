@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void GotoCreatorMode(View view) {
         final Intent intent=new Intent(this,CreatorModeM004.class);
+        CreatorModeM004.hasComeFromQuestions=false;
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         LayoutInflater inflater=LayoutInflater.from(this);
         final View dialogView;

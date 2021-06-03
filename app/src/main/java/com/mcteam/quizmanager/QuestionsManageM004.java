@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +46,13 @@ public class QuestionsManageM004 extends AppCompatActivity {
         adapter=new QuestionViewListAdapter(this,list,(TextView)findViewById(R.id.qmessage),db,subjectId);
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        CreatorModeM004.hasComeFromQuestions=true;
+    }
+
     int findByStatement(String statement)
     {
         for(int i=0;i<list.size();i++)
