@@ -153,7 +153,7 @@ public class QuestionViewListAdapter extends RecyclerView.Adapter<QuestionViewLi
                         }
                         else if(findByStatement(newStatement)==-1) {
                             QuestionInfo info=data.get(position);
-                            info.setStatement(dialogEditText.getText().toString());
+                            info.setStatement(newStatement);
                             db.updateQuestion(info.id,info);
                             data=db.getQuestionsListOfSubject(subjectId);
                             notifyDataSetChanged();
