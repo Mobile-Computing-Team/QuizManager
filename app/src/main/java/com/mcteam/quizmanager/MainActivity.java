@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                 }
-            }).setTitle("Enter Password You want to use for this Mode").create();
+            }).setTitle("Please Enter Password to Access this Mode").create();
             dialog.show();
             Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener() {
