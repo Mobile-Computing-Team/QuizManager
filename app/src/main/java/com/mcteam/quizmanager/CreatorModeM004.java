@@ -18,12 +18,14 @@ public class CreatorModeM004 extends AppCompatActivity {
     RecyclerView recyclerView;
     SubjectViewListAdapter adapter;
     ArrayList<SubjectInfo> list;
+    DBHelper db;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creator_mode_m004);
+        db=new DBHelper(this);
         list=new ArrayList<SubjectInfo>();
         recyclerView=findViewById(R.id.section_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,7 +65,8 @@ public class CreatorModeM004 extends AppCompatActivity {
                     }
                     else if(findByTitle(newTitle)==-1) {
                         ((TextView)findViewById(R.id.message)).setText("");
-                        list.add(0, new SubjectInfo(newTitle));
+                        db.addSubject(new SubjectInfo(newTitle));
+                        list=db.getSubjectsList();
                         adapter.notifyItemInserted(0);
                         recyclerView.scrollToPosition(0);
                         dialog.dismiss();
