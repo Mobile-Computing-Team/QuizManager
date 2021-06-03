@@ -64,12 +64,16 @@ public class DBHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TABLE3_COLUMNS[1], password);
+        contentValues.put(TABLE3_COLUMNS[0], password);
         long result = db.insert(TABLE3_NAME, null, contentValues);
-        if (result == -1)
+        if (result == -1) {
+            db.close();
             return false;
-        else
+        }
+        else {
+            db.close();
             return true;
+        }
     }
     public boolean updatePassword(String updatedPassword)
     {
@@ -89,18 +93,19 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public boolean isPasswordTableEmpty()
     {
-        Log.d("ABC", "addPassword: ");
         SQLiteDatabase db=this.getWritableDatabase();
         String query="SELECT * FROM "+ TABLE3_NAME;
         Cursor cursor=db.rawQuery(query,null);
-        db.close();
-        if(cursor==null)
+        if(cursor.getCount()==0)
         {
             cursor.close();
+            db.close();
             return true;
         }
-        else {
+        else
+            {
             cursor.close();
+            db.close();
             return false;
         }
     }
@@ -109,21 +114,24 @@ public class DBHelper extends SQLiteOpenHelper {
         //TODO: BSEF18M046, Function No.1
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE3_NAME,null);
-        db.close();
         if(cursor.moveToFirst())
         {
-            if(cursor.getString(0)==Password) {
+            if(cursor.getString(0).equals(Password))
+            {
                 cursor.close();
+                db.close();
                 return true;
             }
             else {
                 cursor.close();
+                db.close();
                 return false;
             }
         }
         else
         {
             cursor.close();
+            db.close();
             return false;
         }
     }
@@ -139,22 +147,28 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(TABLE1_COLUMNS[4],newSubjectInfo.minutes);
         contentValues.put(TABLE1_COLUMNS[5],newSubjectInfo.seconds);
         long result=db.insert(TABLE1_NAME,null,contentValues);
-        db.close();
-        if(result==-1)
+        if(result==-1) {
+            db.close();
             return false;
-        else
+        }
+        else {
+            db.close();
             return true;
+        }
     }
     public boolean removeSubject(int subjectId)
     {
         //TODO: BSEF18M046, Function No.3
         SQLiteDatabase db=this.getWritableDatabase();
         int delete=db.delete(TABLE1_NAME,"TABLE1_COLUMNS[0]=?",new String[] {Integer.toString(subjectId)});
-        db.close();
-        if(delete>0)
+        if(delete>0) {
+            db.close();
             return true;
-        else
+        }
+        else {
+            db.close();
             return false;
+        }
         /*This function will remove subject
         having *Id* "subjectId" from database
         table "TABLE1_NAME"*/
@@ -171,10 +185,14 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(TABLE1_COLUMNS[4],updatedSubjectInfo.minutes);
         contentValues.put(TABLE1_COLUMNS[5],updatedSubjectInfo.seconds);
         long res=db.update(TABLE1_NAME,contentValues,"TABLE1_COLUMNS[0]=?",new String[] {Integer.toString(subjectId)});
-        if(res>0)
+        if(res>0) {
+            db.close();
             return true;
-        else
+        }
+        else {
+            db.close();
             return false;
+        }
         /*This function will update subject having
         *Id* "subjectId" to "updatedSubjectInfo" in database
         table "TABLE1_NAME"*/
@@ -193,20 +211,28 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(TABLE2_COLUMNS[7],newQuestionInfo.key);
         contentValues.put(TABLE2_COLUMNS[8],newQuestionInfo.reason);
         long result=db.insert(TABLE1_NAME,null,contentValues);
-        if(result==-1)
+        if(result==-1) {
+            db.close();
             return false;
-        else
+        }
+        else {
+            db.close();
             return true;
+        }
     }
     public boolean removeQuestion(int questionId)
     {
         //TODO: BSEF18M046, Function No.6
         SQLiteDatabase db=this.getWritableDatabase();
         int delete=db.delete(TABLE2_NAME,"TABLE2_COLUMNS[0]=?",new String[] {Integer.toString(questionId)});
-        if(delete>0)
+        if(delete>0) {
+            db.close();
             return true;
-        else
+        }
+        else {
+            db.close();
             return false;
+        }
         /*This function will remove question
         having *Id* "questionId" from database
         table "TABLE2_NAME"*/
@@ -226,10 +252,15 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(TABLE2_COLUMNS[7],updatedQuestionInfo.key);
         contentValues.put(TABLE2_COLUMNS[8],updatedQuestionInfo.reason);
         long res=db.update(TABLE2_NAME,contentValues,"TABLE2_COLUMNS[0]=?",new String[] {Integer.toString(questionId)});
-        if(res>0)
+        if(res>0) {
+            db.close();
             return true;
+        }
         else
-            return false;
+        {
+            db.close();
+            return  false;
+        }
         /*This function will update question having
         *Id* "questionId" to "updatedQuestionInfo" in database
         table "TABLE2_NAME"*/
@@ -240,16 +271,14 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<SubjectInfo> myArrayList=new ArrayList<SubjectInfo>();
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE1_NAME,null);
-        if(cursor.moveToFirst())
-        {
-            do
-            {
-                SubjectInfo newSubjectInfo=new SubjectInfo(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getInt(3),cursor.getInt(4),cursor.getInt(5),cursor.getInt(6));
+        if(cursor.moveToFirst()) {
+            do {
+                SubjectInfo newSubjectInfo = new SubjectInfo(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5), cursor.getInt(6));
                 myArrayList.add(newSubjectInfo);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
-        db.close();
         cursor.close();
+        db.close();
         return myArrayList;
         /*This function will retrieve all subjects
         from database table "TABLE1_NAME" in the form
@@ -271,8 +300,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 }
             }while (cursor.moveToNext());
         }
-        db.close();
         cursor.close();
+        db.close();
         return myArrayList;
         /*This function will retrieve all questions
         having *Subject_Id* "subjectId" from database
