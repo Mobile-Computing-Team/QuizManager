@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                 }
-            }).setTitle("Please Enter Password You want to use for this Mode").create();
+            }).setTitle("Create New Password for Creator Mode").create();
             dialog.show();
             Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener() {

@@ -6,5 +6,7 @@
     <string name="R">Random</string>
     <string name="hint">Enter your answer</string>
     <string name="submitBtn">Submit</string>
+    <string name="empty_message">No Subjects Here! Try Adding More Subjects</string>
+    <string name="qmessage">No Questions Here! Try Adding More Questions</string>
 
 </resources>

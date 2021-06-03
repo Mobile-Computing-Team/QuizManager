@@ -38,7 +38,7 @@
         android:focusableInTouchMode="false"
         android:linksClickable="false"
         android:longClickable="false"
-        android:text="No Subjects Here! Try Adding More Subjects"
+        android:text="@string/empty_message"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -26,10 +26,18 @@ public class CreatorModeM004 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creator_mode_m004);
         db=new DBHelper(this);
-        list=new ArrayList<SubjectInfo>();
+        list=db.getSubjectsList();
+        if(list.size()!=0)
+        {
+            ((TextView)findViewById(R.id.message)).setText("");
+        }
+        else
+        {
+            ((TextView)findViewById(R.id.message)).setText(R.string.empty_message);
+        }
         recyclerView=findViewById(R.id.section_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new SubjectViewListAdapter(this,list,(TextView) findViewById(R.id.message));
+        adapter=new SubjectViewListAdapter(this,list,(TextView) findViewById(R.id.message),db);
         recyclerView.setAdapter(adapter);
     }
     int findByTitle(String title)
@@ -67,8 +75,9 @@ public class CreatorModeM004 extends AppCompatActivity {
                         ((TextView)findViewById(R.id.message)).setText("");
                         db.addSubject(new SubjectInfo(newTitle));
                         list=db.getSubjectsList();
-                        adapter.notifyItemInserted(0);
-                        recyclerView.scrollToPosition(0);
+                        adapter.data=list;
+                        adapter.notifyDataSetChanged();
+                        recyclerView.scrollToPosition(list.size()-1);
                         dialog.dismiss();
                     }else{
                         ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);

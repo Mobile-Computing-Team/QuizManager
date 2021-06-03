@@ -23,11 +23,13 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
     ArrayList<SubjectInfo> data;
     Context context;
     TextView message;
+    DBHelper db;
 
-    public SubjectViewListAdapter(Context context, ArrayList<SubjectInfo> data, TextView message) {
+    public SubjectViewListAdapter(Context context, ArrayList<SubjectInfo> data, TextView message,DBHelper db) {
         this.data = data;
         this.context = context;
         this.message=message;
+        this.db=db;
     }
 
     @NonNull
@@ -101,6 +103,7 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
             if(view.getId()==main.getId())
             {
                 Intent intent=new Intent(context,QuestionsManageM004.class);
+                intent.putExtra("subjectId",data.get(position).id);
                 context.startActivity(intent);
             }
             else if(view.getId()==edit.getId())
@@ -125,8 +128,11 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
                             ((TextView)dialogView.findViewById(R.id.error)).setText("Title Can't be Empty!");
                         }
                         else if(findByTitle(newTitle)==-1) {
-                            data.get(position).title=dialogEditText.getText().toString();
-                            notifyItemChanged(position);
+                            SubjectInfo info=data.get(position);
+                            info.title=dialogEditText.getText().toString();
+                            db.updateSubject(info.id,info);
+                            data=db.getSubjectsList();
+                            notifyDataSetChanged();
                             dialog.dismiss();
                         }else{
                             ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
@@ -140,10 +146,11 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        data.remove(position);
-                        notifyItemRemoved(position);
+                        db.removeSubject(data.get(position).id);
+                        data=db.getSubjectsList();
+                        notifyDataSetChanged();
                         if(data.isEmpty()){
-                            message.setText("No Subjects Here! Try Adding Some Subjects");
+                            message.setText(R.string.empty_message);
                         }
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -185,9 +192,12 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
                                 ((TextView)dialogView.findViewById(R.id.error_mcq)).setText("No. of MCQs Can't be Empty!");
                             }
                             else{
-                            data.get(position).quizMCQs=Integer.parseInt(dialogEditText.getText().toString());
-                            notifyItemChanged(position);
-                            dialog.dismiss();
+                                SubjectInfo info=data.get(position);
+                                info.quizMCQs=Integer.parseInt(dialogEditText.getText().toString());
+                                db.updateSubject(info.id,info);
+                                data=db.getSubjectsList();
+                                notifyDataSetChanged();
+                                dialog.dismiss();
                             }
                         }
                     });
@@ -220,10 +230,13 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
                             }
                             else
                             {
-                                data.get(position).hours = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_hour)).getText().toString());
-                                data.get(position).minutes = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_minute)).getText().toString());
-                                data.get(position).seconds = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_second)).getText().toString());
-                                notifyItemChanged(position);
+                                SubjectInfo info=data.get(position);
+                                info.hours = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_hour)).getText().toString());
+                                info.minutes = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_minute)).getText().toString());
+                                info.seconds = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_second)).getText().toString());
+                                db.updateSubject(info.id,info);
+                                data=db.getSubjectsList();
+                                notifyDataSetChanged();
                                 dialog.dismiss();
                             }
                         }

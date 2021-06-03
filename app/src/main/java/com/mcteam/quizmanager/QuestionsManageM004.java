@@ -22,14 +22,27 @@ public class QuestionsManageM004 extends AppCompatActivity {
     RecyclerView recyclerView;
     QuestionViewListAdapter adapter;
     ArrayList<QuestionInfo> list=new ArrayList<>();
+    int subjectId;
+    DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions_manage_m004);
+        db=new DBHelper(this);
+        subjectId=getIntent().getExtras().getInt("subjectId");
+        list=db.getQuestionsListOfSubject(subjectId);
+        if(list.isEmpty())
+        {
+            ((TextView)findViewById(R.id.qmessage)).setText(R.string.qmessage);
+        }
+        else
+        {
+            ((TextView)findViewById(R.id.qmessage)).setText("");
+        }
         recyclerView=findViewById(R.id.question_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new QuestionViewListAdapter(this,list,(TextView)findViewById(R.id.qmessage));
+        adapter=new QuestionViewListAdapter(this,list,(TextView)findViewById(R.id.qmessage),db,subjectId);
         recyclerView.setAdapter(adapter);
     }
     int findByStatement(String statement)
@@ -92,25 +105,28 @@ public class QuestionsManageM004 extends AppCompatActivity {
                 {
                     ((TextView)findViewById(R.id.qmessage)).setText("");
                     errorQuestion.setText("");
-                    list.add(0,new QuestionInfo(1,1,"",statementInput,optionAInput,optionBInput,optionCInput,optionDInput,reasonInput));
+                    QuestionInfo info=new QuestionInfo(subjectId,"",statementInput,optionAInput,optionBInput,optionCInput,optionDInput,reasonInput);
                     if(keyOptionInput==R.id.keyA_input)
                     {
-                        list.get(0).setKey(list.get(0).getOption1());
+                        info.setKey(info.getOption1());
                     }
                     else if(keyOptionInput==R.id.keyB_input)
                     {
-                        list.get(0).setKey(list.get(0).getOption2());
+                        info.setKey(info.getOption2());
                     }
                     else if(keyOptionInput==R.id.keyC_input)
                     {
-                        list.get(0).setKey(list.get(0).getOption3());
+                        info.setKey(info.getOption3());
                     }
                     else if(keyOptionInput==R.id.keyD_input)
                     {
-                        list.get(0).setKey(list.get(0).getOption4());
+                        info.setKey(info.getOption4());
                     }
-                    adapter.notifyItemInserted(0);
-                    recyclerView.scrollToPosition(0);
+                    db.addQuestion(info);
+                    list=db.getQuestionsListOfSubject(subjectId);
+                    adapter.data=list;
+                    adapter.notifyDataSetChanged();
+                    recyclerView.scrollToPosition(list.size()-1);
                     dialog.dismiss();
                 }
             }

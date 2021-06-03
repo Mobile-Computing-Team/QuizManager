@@ -48,8 +48,8 @@ public class DBHelper extends SQLiteOpenHelper {
         String temp1=TABLE1_COLUMNS[0];
         String temp2=TABLE2_COLUMNS[0];
         String temp3=TABLE3_COLUMNS[0];
-        sqLiteDatabase.execSQL("create table "+TABLE1_NAME+" ("+temp1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+TABLE1_COLUMNS[1]+" TEXT,"+TABLE1_COLUMNS[2]+" INTEGER,"+TABLE1_COLUMNS[3]+" INTEGER,"+TABLE1_COLUMNS[4]+" INTEGER,"+TABLE1_COLUMNS[5]+" INTEGER);");
-        sqLiteDatabase.execSQL("create table "+TABLE2_NAME+" ("+temp2+" INTEGER PRIMARY KEY AUTOINCREMENT,"+TABLE2_COLUMNS[1]+" INTEGER,"+TABLE2_COLUMNS[2]+" TEXT,"+TABLE2_COLUMNS[3]+" TEXT,"+TABLE2_COLUMNS[4]+" TEXT,"+TABLE2_COLUMNS[5]+" TEXT,"+TABLE2_COLUMNS[6]+" TEXT,"+TABLE2_COLUMNS[7]+" TEXT,"+TABLE2_COLUMNS[8]+" TEXT,FOREIGN KEY("+TABLE2_COLUMNS[1]+") REFERENCES "+TABLE1_NAME+"("+TABLE1_COLUMNS[0]+"));");
+        sqLiteDatabase.execSQL("create table "+TABLE1_NAME+" ("+temp1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+TABLE1_COLUMNS[1]+" TEXT,"+TABLE1_COLUMNS[2]+" INTEGER,"+TABLE1_COLUMNS[3]+" INTEGER,"+TABLE1_COLUMNS[4]+" INTEGER,"+TABLE1_COLUMNS[5]+" INTEGER,CONSTRAINT title_unique_key UNIQUE ("+TABLE1_COLUMNS[1]+"));");
+        sqLiteDatabase.execSQL("create table "+TABLE2_NAME+" ("+temp2+" INTEGER PRIMARY KEY AUTOINCREMENT,"+TABLE2_COLUMNS[1]+" INTEGER,"+TABLE2_COLUMNS[2]+" TEXT,"+TABLE2_COLUMNS[3]+" TEXT,"+TABLE2_COLUMNS[4]+" TEXT,"+TABLE2_COLUMNS[5]+" TEXT,"+TABLE2_COLUMNS[6]+" TEXT,"+TABLE2_COLUMNS[7]+" TEXT,"+TABLE2_COLUMNS[8]+" TEXT,FOREIGN KEY("+TABLE2_COLUMNS[1]+") REFERENCES "+TABLE1_NAME+"("+TABLE1_COLUMNS[0]+"),CONSTRAINT statement_unique_key UNIQUE ("+TABLE2_COLUMNS[2]+"));");
         sqLiteDatabase.execSQL("create table "+TABLE3_NAME+" ("+temp3+" TEXT);");
     }
     @Override
@@ -140,7 +140,6 @@ public class DBHelper extends SQLiteOpenHelper {
         //TODO: BSEF18M046, Function No.2
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
-        contentValues.put(TABLE1_COLUMNS[0],newSubjectInfo.id);
         contentValues.put(TABLE1_COLUMNS[1],newSubjectInfo.title);
         contentValues.put(TABLE1_COLUMNS[2],newSubjectInfo.quizMCQs);
         contentValues.put(TABLE1_COLUMNS[3],newSubjectInfo.hours);
@@ -160,7 +159,7 @@ public class DBHelper extends SQLiteOpenHelper {
     {
         //TODO: BSEF18M046, Function No.3
         SQLiteDatabase db=this.getWritableDatabase();
-        int delete=db.delete(TABLE1_NAME,"TABLE1_COLUMNS[0]=?",new String[] {Integer.toString(subjectId)});
+        int delete=db.delete(TABLE1_NAME,TABLE1_COLUMNS[0]+"=?",new String[] {Integer.toString(subjectId)});
         if(delete>0) {
             db.close();
             return true;
@@ -184,7 +183,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(TABLE1_COLUMNS[3],updatedSubjectInfo.hours);
         contentValues.put(TABLE1_COLUMNS[4],updatedSubjectInfo.minutes);
         contentValues.put(TABLE1_COLUMNS[5],updatedSubjectInfo.seconds);
-        long res=db.update(TABLE1_NAME,contentValues,"TABLE1_COLUMNS[0]=?",new String[] {Integer.toString(subjectId)});
+        long res=db.update(TABLE1_NAME,contentValues,TABLE1_COLUMNS[0]+"=?",new String[] {Integer.toString(subjectId)});
         if(res>0) {
             db.close();
             return true;
@@ -210,7 +209,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(TABLE2_COLUMNS[6],newQuestionInfo.option4);
         contentValues.put(TABLE2_COLUMNS[7],newQuestionInfo.key);
         contentValues.put(TABLE2_COLUMNS[8],newQuestionInfo.reason);
-        long result=db.insert(TABLE1_NAME,null,contentValues);
+        long result=db.insert(TABLE2_NAME,null,contentValues);
         if(result==-1) {
             db.close();
             return false;
@@ -224,7 +223,7 @@ public class DBHelper extends SQLiteOpenHelper {
     {
         //TODO: BSEF18M046, Function No.6
         SQLiteDatabase db=this.getWritableDatabase();
-        int delete=db.delete(TABLE2_NAME,"TABLE2_COLUMNS[0]=?",new String[] {Integer.toString(questionId)});
+        int delete=db.delete(TABLE2_NAME,TABLE2_COLUMNS[0]+"=?",new String[] {Integer.toString(questionId)});
         if(delete>0) {
             db.close();
             return true;
@@ -251,7 +250,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(TABLE2_COLUMNS[6],updatedQuestionInfo.option4);
         contentValues.put(TABLE2_COLUMNS[7],updatedQuestionInfo.key);
         contentValues.put(TABLE2_COLUMNS[8],updatedQuestionInfo.reason);
-        long res=db.update(TABLE2_NAME,contentValues,"TABLE2_COLUMNS[0]=?",new String[] {Integer.toString(questionId)});
+        long res=db.update(TABLE2_NAME,contentValues,TABLE2_COLUMNS[0]+"=?",new String[] {Integer.toString(questionId)});
         if(res>0) {
             db.close();
             return true;
@@ -273,7 +272,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE1_NAME,null);
         if(cursor.moveToFirst()) {
             do {
-                SubjectInfo newSubjectInfo = new SubjectInfo(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5), cursor.getInt(6));
+                SubjectInfo newSubjectInfo = new SubjectInfo(cursor.getInt(0), cursor.getString(1),getQuestionsListOfSubject(cursor.getInt(0)).size(), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
                 myArrayList.add(newSubjectInfo);
             } while (cursor.moveToNext());
         }

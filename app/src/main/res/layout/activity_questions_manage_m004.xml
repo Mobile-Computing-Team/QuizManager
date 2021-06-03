@@ -37,7 +37,7 @@
         android:focusableInTouchMode="false"
         android:linksClickable="false"
         android:longClickable="false"
-        android:text="No Questions Here! Try Adding More Questions"
+        android:text="@string/qmessage"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
