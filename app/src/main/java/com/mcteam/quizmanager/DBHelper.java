@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -61,21 +62,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public boolean addPassword(String password)
     {
-        if(isPasswordTableEmpty()==true) {
-            SQLiteDatabase db = this.getWritableDatabase();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(TABLE3_COLUMNS[1], password);
-            long result = db.insert(TABLE3_NAME, null, contentValues);
-            db.close();
-            if (result == -1)
-                return false;
-            else
-                return true;
-        }
-        else
-        {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TABLE3_COLUMNS[1], password);
+        long result = db.insert(TABLE3_NAME, null, contentValues);
+        if (result == -1)
             return false;
-        }
+        else
+            return true;
     }
     public boolean updatePassword(String updatedPassword)
     {
@@ -95,11 +89,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public boolean isPasswordTableEmpty()
     {
+        Log.d("ABC", "addPassword: ");
         SQLiteDatabase db=this.getWritableDatabase();
         String query="SELECT * FROM "+ TABLE3_NAME;
         Cursor cursor=db.rawQuery(query,null);
         db.close();
-        if(cursor.getCount()==0) {
+        if(cursor==null)
+        {
             cursor.close();
             return true;
         }
