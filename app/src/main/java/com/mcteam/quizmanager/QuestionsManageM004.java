@@ -44,12 +44,6 @@ public class QuestionsManageM004 extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        CreatorModeM004.hasComeFromQuestions=true;
-    }
-
     int findByStatement(String statement)
     {
         for(int i=0;i<list.size();i++)

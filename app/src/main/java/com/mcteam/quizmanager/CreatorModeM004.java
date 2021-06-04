@@ -56,6 +56,12 @@ public class CreatorModeM004 extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        CreatorModeM004.hasComeFromQuestions=true;
+    }
+
     int findByTitle(String title)
     {
         for(int i=0;i<list.size();i++)
