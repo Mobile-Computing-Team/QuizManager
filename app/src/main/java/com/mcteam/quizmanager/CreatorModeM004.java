@@ -156,7 +156,7 @@ public class CreatorModeM004 extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
             }
-        }).setTitle("We need to verify your Identity").create();
+        }).setTitle("Please Verify your Identity").create();
         dialog.show();
         Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(new View.OnClickListener() {
