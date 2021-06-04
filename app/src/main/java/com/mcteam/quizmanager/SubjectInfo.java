@@ -1,9 +1,5 @@
 package com.mcteam.quizmanager;
 
-import android.util.Log;
-
-import androidx.annotation.Nullable;
-
 public class SubjectInfo{
     int id;
     String title;

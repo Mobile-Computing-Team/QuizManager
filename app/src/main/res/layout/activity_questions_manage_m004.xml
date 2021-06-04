@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/add_question_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -27,7 +27,8 @@
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/plus_symbol" />
+        app:srcCompat="@drawable/plus_symbol"
+        android:contentDescription="@string/add_question_desc" />
 
     <TextView
         android:id="@+id/qmessage"
@@ -43,7 +44,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/section_list" />
+        app:layout_constraintTop_toTopOf="@+id/question_list" />
 
     <Space
         android:id="@+id/space2"

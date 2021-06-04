@@ -1,23 +1,20 @@
 package com.mcteam.quizmanager;
 
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class QuestionsManageM004 extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -31,7 +28,7 @@ public class QuestionsManageM004 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions_manage_m004);
         db=new DBHelper(this);
-        subjectId=getIntent().getExtras().getInt("subjectId");
+        subjectId= Objects.requireNonNull(getIntent().getExtras()).getInt("subjectId");
         list=db.getQuestionsListOfSubject(subjectId);
         if(list.isEmpty())
         {
@@ -87,27 +84,27 @@ public class QuestionsManageM004 extends AppCompatActivity {
                 TextView errorQuestion=dialogView.findViewById(R.id.error_question);
                 if(statementInput.isEmpty())
                 {
-                    errorQuestion.setText("Statement can't be empty");
+                    errorQuestion.setText(R.string.empty_statement_error);
                 }
                 else if(findByStatement(statementInput)!=-1)
                 {
-                    errorQuestion.setText("Duplicate Statement");
+                    errorQuestion.setText(R.string.duplicate_statement_error);
                 }
                 else if(optionAInput.isEmpty())
                 {
-                    errorQuestion.setText("Option A can't be empty");
+                    errorQuestion.setText(R.string.empty_optionA_error);
                 }
                 else if(optionBInput.isEmpty())
                 {
-                    errorQuestion.setText("Option B can't be empty");
+                    errorQuestion.setText(R.string.empty_optionB_error);
                 }
                 else if(optionCInput.isEmpty())
                 {
-                    errorQuestion.setText("Option C can't be empty");
+                    errorQuestion.setText(R.string.empty_optionC_error);
                 }
                 else if(optionDInput.isEmpty())
                 {
-                    errorQuestion.setText("Option D can't be empty");
+                    errorQuestion.setText(R.string.empty_optionD_error);
                 }
                 else
                 {

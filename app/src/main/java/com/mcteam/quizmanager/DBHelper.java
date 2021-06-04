@@ -5,13 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.mcteam.quizmanager.adapterM023.BundleM023;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -77,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public boolean updatePassword(String updatedPassword)
     {
-        if(isPasswordTableEmpty()==false)
+        if(!isPasswordTableEmpty())
         {
             SQLiteDatabase db=this.getWritableDatabase();
             ContentValues contentValues=new ContentValues();
@@ -162,12 +160,7 @@ public class DBHelper extends SQLiteOpenHelper {
         int delete=db.delete(TABLE1_NAME,TABLE1_COLUMNS[0]+"=?",new String[] {Integer.toString(subjectId)});
         int delete_q=db.delete(TABLE2_NAME,TABLE2_COLUMNS[1]+"=?",new String[]{Integer.toString(subjectId)});
         db.close();
-        if(delete>0 && delete_q>0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return delete > 0 && delete_q > 0;
         /*This function will remove subject
         having *Id* "subjectId" from database
         table "TABLE1_NAME"*/
@@ -267,7 +260,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<SubjectInfo> getSubjectsList()
     {
         //TODO: BSEF18M046, Function No.8
-        ArrayList<SubjectInfo> myArrayList=new ArrayList<SubjectInfo>();
+        ArrayList<SubjectInfo> myArrayList= new ArrayList<>();
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE1_NAME,null);
         if(cursor.moveToFirst()) {
@@ -287,7 +280,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<QuestionInfo>getQuestionsListOfSubject(int subjectId)
     {
         //TODO: BSEF18M046, Function No.9
-        ArrayList<QuestionInfo> myArrayList=new ArrayList<QuestionInfo>();
+        ArrayList<QuestionInfo> myArrayList= new ArrayList<>();
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cursor=db.rawQuery("SELECT * FROM "+TABLE2_NAME,null);
         if(cursor.moveToFirst())
@@ -329,7 +322,7 @@ public class DBHelper extends SQLiteOpenHelper {
         list.add(subj);
         subj=new SubjectInfo("Physics", 80, 50, 2, 5, 0);
         list.add(subj);
-        subj=new SubjectInfo("Astronomy", 0, 50, 2, 5, 05);
+        subj=new SubjectInfo("Astronomy", 0, 50, 2, 5, 5);
         list.add(subj);
         return list;
     }
