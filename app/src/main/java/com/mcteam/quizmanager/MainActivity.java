@@ -1,16 +1,9 @@
 package com.mcteam.quizmanager;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.renderscript.ScriptGroup;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     DBHelper db;
@@ -54,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             dialogEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             dialogEditText.setHint("Enter Password");
             TextView inputLabel = dialogView.findViewById(R.id.input_label);
-            inputLabel.setText("Password: ");
+            inputLabel.setText(R.string.password_label);
             final AlertDialog dialog = builder.setView(dialogView).setPositiveButton("Create", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -69,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
                     if(newPassword.isEmpty())
                     {
                         ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
-                        ((TextView)dialogView.findViewById(R.id.error)).setText("Password Can't be Empty!");
+                        ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.empty_password_error);
                     }
                     else if(newPassword.length()<8 || newPassword.length()>=15)
                     {
                         ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
-                        ((TextView)dialogView.findViewById(R.id.error)).setText("Password Length must be Between 8 and 15!");
+                        ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.password_length_error);
                     }
                     else
                     {
@@ -92,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             dialogEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             dialogEditText.setHint("Enter Password");
             TextView inputLabel = dialogView.findViewById(R.id.input_label);
-            inputLabel.setText("Password: ");
+            inputLabel.setText(R.string.password_label);
             final AlertDialog dialog = builder.setView(dialogView).setPositiveButton("Submit", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -113,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     else
                     {
                         ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
-                        ((TextView)dialogView.findViewById(R.id.error)).setText("Invalid Password!");
+                        ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.invalid_passsword_error);
                     }
                 }
             });

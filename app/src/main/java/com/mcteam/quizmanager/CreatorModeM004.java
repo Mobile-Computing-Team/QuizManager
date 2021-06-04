@@ -1,17 +1,19 @@
 package com.mcteam.quizmanager;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -83,7 +85,7 @@ public class CreatorModeM004 extends AppCompatActivity {
                     if(newTitle.isEmpty())
                     {
                         ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
-                        ((TextView)dialogView.findViewById(R.id.error)).setText("Title Can't be Empty!");
+                        ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.empty_title_error);
                     }
                     else if(findByTitle(newTitle)==-1) {
                         ((TextView)findViewById(R.id.message)).setText("");
@@ -95,8 +97,84 @@ public class CreatorModeM004 extends AppCompatActivity {
                         dialog.dismiss();
                     }else{
                         ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
-                        ((TextView)dialogView.findViewById(R.id.error)).setText("Duplicate Title!");
+                        ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.duplicate_title_error);
                     }
+            }
+        });
+    }
+
+    public void ChangePassword() {
+        final View dialogView=getLayoutInflater().inflate(R.layout.change_title_dialog,null);
+        final EditText dialogEditText=dialogView.findViewById(R.id.sectionTitle);
+        dialogEditText.setHint("Enter New Password");
+        dialogEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        TextView inputLabel=dialogView.findViewById(R.id.input_label);
+        inputLabel.setText(R.string.change_password_label);
+        final AlertDialog dialog=new AlertDialog.Builder(this).setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        }).setTitle("Change Password").create();
+        dialog.show();
+        Button positiveButton=dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newPassword = dialogEditText.getText().toString();
+                if(newPassword.isEmpty())
+                {
+                    ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
+                    ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.empty_password_error);
+                }
+                else if(newPassword.length()<8 || newPassword.length()>=15)
+                {
+                    ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
+                    ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.password_length_error);
+                }
+                else
+                {
+                    db.updatePassword(newPassword);
+                    dialog.dismiss();
+                    Toast.makeText(CreatorModeM004.this, "Password Updated Successfully! Now Access this Mode Using New Password", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        });
+    }
+
+    public void VerifyIdentity(View view) {
+        android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(this);
+        LayoutInflater inflater=LayoutInflater.from(this);
+        final View dialogView;
+        final EditText dialogEditText;
+        dialogView = inflater.inflate(R.layout.change_title_dialog, null);
+        dialogEditText = dialogView.findViewById(R.id.sectionTitle);
+        dialogEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        dialogEditText.setHint("Enter Your Old Password");
+        TextView inputLabel = dialogView.findViewById(R.id.input_label);
+        inputLabel.setText(R.string.old_password_label);
+        final android.app.AlertDialog dialog = builder.setView(dialogView).setPositiveButton("Submit", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        }).setTitle("We need to verify your Identity").create();
+        dialog.show();
+        Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newPassword = dialogEditText.getText().toString();
+                if(db.isCreator(newPassword))
+                {
+                    Toast.makeText(CreatorModeM004.this, "Identity Verified!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    ChangePassword();
+                }
+                else
+                {
+                    ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
+                    ((TextView)dialogView.findViewById(R.id.error)).setText("Invalid Password!");
+                }
             }
         });
     }

@@ -8,5 +8,13 @@
     <string name="submitBtn">Submit</string>
     <string name="empty_message">No Subjects Here! Try Adding More Subjects</string>
     <string name="qmessage">No Questions Here! Try Adding More Questions</string>
+    <string name="password_label">\"Password: \"</string>
+    <string name="empty_password_error">Password Can\'t be Empty!</string>
+    <string name="password_length_error">Password Length must be Between 8 and 15!</string>
+    <string name="invalid_passsword_error">Invalid Password!</string>
+    <string name="empty_title_error">Title Can\'t be Empty!</string>
+    <string name="duplicate_title_error">Duplicate Title!</string>
+    <string name="change_password_label">\"New Password: \"</string>
+    <string name="old_password_label">\"Old Password: \"</string>
 
 </resources>
