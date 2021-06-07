@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,8 +36,7 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
     public SubjectViewListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater=LayoutInflater.from(parent.getContext());
         View view=layoutInflater.inflate(R.layout.section_item_m004,parent,false);
-        ViewHolder viewHolder=new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -46,7 +44,7 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
         holder.title.setText(data.get(position).title);
         holder.questionsCount.setText(String.valueOf(data.get(position).totalQuestions));
         holder.quizMCQsCount.setText(String.valueOf(data.get(position).quizMCQs));
-        holder.quizDuration.setText(String.format("%02d:%02d:%02d",data.get(position).hours,data.get(position).minutes,data.get(position).seconds));
+        holder.quizDuration.setText(String.format("%02d:%02d:%02d".toLowerCase(),data.get(position).hours,data.get(position).minutes,data.get(position).seconds));
     }
 
     @Override
@@ -54,7 +52,7 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View main;
         TextView title;
         TextView questionsCount;
@@ -79,8 +77,8 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
             main.setOnClickListener(this);
             delete.setOnClickListener(this);
             edit.setOnClickListener(this);
-            qmcll.setOnTouchListener(this);
-            qdll.setOnTouchListener(this);
+            qmcll.setOnClickListener(this);
+            qdll.setOnClickListener(this);
         }
         int findByTitle(String title)
         {
@@ -96,10 +94,9 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
         @Override
         public void onClick(final View view) {
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
-            LayoutInflater inflater=LayoutInflater.from(context);
-            final View dialogView;
-            final EditText dialogEditText;
+            LayoutInflater inflater = LayoutInflater.from(context);
             position=findByTitle(title.getText().toString());
+            final EditText dialogEditText;
             if(view.getId()==main.getId())
             {
                 Intent intent=new Intent(context,QuestionsManageM004.class);
@@ -108,7 +105,7 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
             }
             else if(view.getId()==edit.getId())
             {
-                dialogView=inflater.inflate(R.layout.change_title_dialog,null);
+                final View dialogView = inflater.inflate(R.layout.change_title_dialog, null);
                 dialogEditText=dialogView.findViewById(R.id.sectionTitle);
                 dialogEditText.setText(data.get(position).title);
                 final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -124,8 +121,8 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
                         String newTitle=dialogEditText.getText().toString();
                         if(newTitle.isEmpty())
                         {
-                            ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
-                            ((TextView)dialogView.findViewById(R.id.error)).setText("Title Can't be Empty!");
+                            dialogView.findViewById(R.id.error).setVisibility(View.VISIBLE);
+                            ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.empty_title_error);
                         }
                         else if(findByTitle(newTitle)==-1) {
                             SubjectInfo info=data.get(position);
@@ -135,8 +132,8 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
                             notifyDataSetChanged();
                             dialog.dismiss();
                         }else{
-                            ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
-                            ((TextView)dialogView.findViewById(R.id.error)).setText("Duplicate Title!");
+                            dialogView.findViewById(R.id.error).setVisibility(View.VISIBLE);
+                            ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.duplicate_title_error);
                         }
                     }
                 });
@@ -159,91 +156,78 @@ public class SubjectViewListAdapter extends RecyclerView.Adapter<SubjectViewList
                     }
                 }).setTitle("Confirm?").setMessage("Do you really want to remove this subject?").create().show();
             }
-        }
-
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if(motionEvent.getAction()==MotionEvent.ACTION_UP)
+            else if(view.getId()==qmcll.getId())
             {
-                AlertDialog.Builder builder=new AlertDialog.Builder(context);
-                LayoutInflater inflater=LayoutInflater.from(context);
-                final View dialogView;
-                final EditText dialogEditText;
-                position=findByTitle(title.getText().toString());
-                if(view.getId()==qmcll.getId())
-                {
-                    dialogView=inflater.inflate(R.layout.change_mcq_dialog,null);
-                    dialogEditText=dialogView.findViewById(R.id.quiz_mcqs);
-                    dialogEditText.setText(String.valueOf(data.get(position).quizMCQs));
-                    final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                final View dialogView=inflater.inflate(R.layout.change_mcq_dialog,null);
+                dialogEditText=dialogView.findViewById(R.id.quiz_mcqs);
+                dialogEditText.setText(String.valueOf(data.get(position).quizMCQs));
+                final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                }).setTitle("Change Quiz MCQs").create();
+                dialog.show();
+                Button positiveButton=dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String input=dialogEditText.getText().toString();
+                        if(input.isEmpty())
+                        {
+                            dialogView.findViewById(R.id.error_mcq).setVisibility(View.VISIBLE);
+                            ((TextView)dialogView.findViewById(R.id.error_mcq)).setText(R.string.empty_nomcq_error);
                         }
-                    }).setTitle("Change Quiz MCQs").create();
-                    dialog.show();
-                    Button positiveButton=dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                    positiveButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String input=dialogEditText.getText().toString();
-                            if(input.isEmpty())
-                            {
-                                ((TextView)dialogView.findViewById(R.id.error_mcq)).setVisibility(View.VISIBLE);
-                                ((TextView)dialogView.findViewById(R.id.error_mcq)).setText("No. of MCQs Can't be Empty!");
-                            }
-                            else{
-                                SubjectInfo info=data.get(position);
-                                info.quizMCQs=Integer.parseInt(dialogEditText.getText().toString());
-                                db.updateSubject(info.id,info);
-                                data=db.getSubjectsList();
-                                notifyDataSetChanged();
-                                dialog.dismiss();
-                            }
+                        else{
+                            SubjectInfo info=data.get(position);
+                            info.quizMCQs=Integer.parseInt(dialogEditText.getText().toString());
+                            db.updateSubject(info.id,info);
+                            data=db.getSubjectsList();
+                            notifyDataSetChanged();
+                            dialog.dismiss();
                         }
-                    });
-                }
-                else if(view.getId()==qdll.getId())
-                {
-                    dialogView=inflater.inflate(R.layout.change_duration_dialog,null);
-                    final EditText hoursInput=((EditText) dialogView.findViewById(R.id.quiz_duration_hour));
-                    final EditText minutesInput=((EditText) dialogView.findViewById(R.id.quiz_duration_minute));
-                    final EditText secondsInput=((EditText) dialogView.findViewById(R.id.quiz_duration_second));
-                    hoursInput.setText(String.format("%02d",data.get(position).hours));
-                    minutesInput.setText(String.format("%02d",data.get(position).minutes));
-                    secondsInput.setText(String.format("%02d",data.get(position).seconds));
-                    final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                        }
-                    }).setTitle("Change Quiz Duration").create();
-                    dialog.show();
-                    Button positiveButton=dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                    positiveButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String hours=hoursInput.getText().toString();
-                            String minutes=minutesInput.getText().toString();
-                            String seconds=secondsInput.getText().toString();
-                            if(hours.isEmpty() || minutes.isEmpty() || seconds.isEmpty() || Integer.parseInt(hours)>23 ||Integer.parseInt(minutes)>59 ||Integer.parseInt(minutes)>59)
-                            {
-                                ((TextView)dialogView.findViewById(R.id.error_duration)).setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                SubjectInfo info=data.get(position);
-                                info.hours = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_hour)).getText().toString());
-                                info.minutes = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_minute)).getText().toString());
-                                info.seconds = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_second)).getText().toString());
-                                db.updateSubject(info.id,info);
-                                data=db.getSubjectsList();
-                                notifyDataSetChanged();
-                                dialog.dismiss();
-                            }
-                        }
-                    });
-                }
+                    }
+                });
             }
-            return false;
+            else if(view.getId()==qdll.getId())
+            {
+                final View dialogView=inflater.inflate(R.layout.change_duration_dialog,null);
+                final EditText hoursInput= dialogView.findViewById(R.id.quiz_duration_hour);
+                final EditText minutesInput= dialogView.findViewById(R.id.quiz_duration_minute);
+                final EditText secondsInput= dialogView.findViewById(R.id.quiz_duration_second);
+                hoursInput.setText(String.format("%02d".toLowerCase(),data.get(position).hours));
+                minutesInput.setText(String.format("%02d".toLowerCase(),data.get(position).minutes));
+                secondsInput.setText(String.format("%02d".toLowerCase(),data.get(position).seconds));
+                final AlertDialog dialog= builder.setView(dialogView).setPositiveButton("Change",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                }).setTitle("Change Quiz Duration").create();
+                dialog.show();
+                Button positiveButton=dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String hours=hoursInput.getText().toString();
+                        String minutes=minutesInput.getText().toString();
+                        String seconds=secondsInput.getText().toString();
+                        if(hours.isEmpty() || minutes.isEmpty() || seconds.isEmpty() || Integer.parseInt(hours)>23 ||Integer.parseInt(minutes)>59 ||Integer.parseInt(minutes)>59)
+                        {
+                            dialogView.findViewById(R.id.error_duration).setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            SubjectInfo info=data.get(position);
+                            info.hours = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_hour)).getText().toString());
+                            info.minutes = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_minute)).getText().toString());
+                            info.seconds = Integer.parseInt(((EditText) dialogView.findViewById(R.id.quiz_duration_second)).getText().toString());
+                            db.updateSubject(info.id,info);
+                            data=db.getSubjectsList();
+                            notifyDataSetChanged();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+            }
         }
     }
 }

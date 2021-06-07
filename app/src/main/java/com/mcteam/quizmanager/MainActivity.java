@@ -41,16 +41,16 @@ public class MainActivity extends AppCompatActivity {
         CreatorModeM004.hasComeFromQuestions=false;
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         LayoutInflater inflater=LayoutInflater.from(this);
-        final View dialogView;
         final EditText dialogEditText;
+        final View dialogView = inflater.inflate(R.layout.change_title_dialog, null);
+        dialogEditText = dialogView.findViewById(R.id.sectionTitle);
+        dialogEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        dialogEditText.setHint("Enter Password");
+        TextView inputLabel = dialogView.findViewById(R.id.input_label);
+        inputLabel.setText(R.string.password_label);
+        final AlertDialog dialog;
         if(db.isPasswordTableEmpty()) {
-            dialogView = inflater.inflate(R.layout.change_title_dialog, null);
-            dialogEditText = dialogView.findViewById(R.id.sectionTitle);
-            dialogEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            dialogEditText.setHint("Enter Password");
-            TextView inputLabel = dialogView.findViewById(R.id.input_label);
-            inputLabel.setText(R.string.password_label);
-            final AlertDialog dialog = builder.setView(dialogView).setPositiveButton("Create", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            dialog = builder.setView(dialogView).setPositiveButton("Create", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                 }
@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
                     String newPassword = dialogEditText.getText().toString();
                     if(newPassword.isEmpty())
                     {
-                        ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
+                        dialogView.findViewById(R.id.error).setVisibility(View.VISIBLE);
                         ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.empty_password_error);
                     }
                     else if(newPassword.length()<8 || newPassword.length()>=15)
                     {
-                        ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
+                        dialogView.findViewById(R.id.error).setVisibility(View.VISIBLE);
                         ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.password_length_error);
                     }
                     else
@@ -82,13 +82,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            dialogView = inflater.inflate(R.layout.change_title_dialog, null);
-            dialogEditText = dialogView.findViewById(R.id.sectionTitle);
-            dialogEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            dialogEditText.setHint("Enter Password");
-            TextView inputLabel = dialogView.findViewById(R.id.input_label);
-            inputLabel.setText(R.string.password_label);
-            final AlertDialog dialog = builder.setView(dialogView).setPositiveButton("Submit", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            dialog = builder.setView(dialogView).setPositiveButton("Submit", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                 }
@@ -107,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        ((TextView)dialogView.findViewById(R.id.error)).setVisibility(View.VISIBLE);
+                        dialogView.findViewById(R.id.error).setVisibility(View.VISIBLE);
                         ((TextView)dialogView.findViewById(R.id.error)).setText(R.string.invalid_passsword_error);
                     }
                 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -25,16 +24,17 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Statement: " />
+                android:text="@string/statement_label" />
 
             <EditText
                 android:id="@+id/statement_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Enter Question Statement"
+                android:hint="@string/statement_hint"
                 android:inputType="textPersonName"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:autofillHints="" />
         </TableRow>
 
         <TableRow
@@ -45,16 +45,17 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Option A: " />
+                android:text="@string/optionA_label" />
 
             <EditText
                 android:id="@+id/A_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Enter Option A"
+                android:hint="@string/option_a_hint"
                 android:inputType="textPersonName"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:autofillHints="" />
 
         </TableRow>
 
@@ -66,16 +67,17 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Option B: " />
+                android:text="@string/optionB_label" />
 
             <EditText
                 android:id="@+id/B_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Enter Option B"
+                android:hint="@string/option_b_hint"
                 android:inputType="textPersonName"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:autofillHints="" />
 
         </TableRow>
 
@@ -87,16 +89,17 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Option C: " />
+                android:text="@string/optionC_label" />
 
             <EditText
                 android:id="@+id/C_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Enter Option C"
+                android:hint="@string/option_c_hint"
                 android:inputType="textPersonName"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:autofillHints="" />
         </TableRow>
 
         <TableRow
@@ -107,16 +110,17 @@
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Option D: " />
+                android:text="@string/optionD_label" />
 
             <EditText
                 android:id="@+id/D_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Enter Option D"
+                android:hint="@string/option_d_hint"
                 android:inputType="textPersonName"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:autofillHints="" />
         </TableRow>
 
         <TableRow
@@ -128,7 +132,7 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Key Option: " />
+                android:text="@string/key_option_label" />
 
             <RadioGroup
                 android:id="@+id/key_input"
@@ -141,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/normal_radio_button"
                     android:checked="true"
-                    android:text="Option A"
+                    android:text="@string/option_a_view"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -149,7 +153,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:button="@drawable/normal_radio_button"
-                    android:text="Option B"
+                    android:text="@string/option_b_view"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -157,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:button="@drawable/normal_radio_button"
-                    android:text="Option C"
+                    android:text="@string/option_c_view"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -165,7 +169,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:button="@drawable/normal_radio_button"
-                    android:text="Option D"
+                    android:text="@string/option_d_view"
                     android:textSize="14sp" />
             </RadioGroup>
 
@@ -179,16 +183,17 @@
                 android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reason (Optional): " />
+                android:text="@string/reason_label" />
 
             <EditText
                 android:id="@+id/reason_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Enter Answer Reason"
+                android:hint="@string/answer_reason_hint"
                 android:inputType="textPersonName"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:autofillHints="" />
         </TableRow>
 
         <TableRow
