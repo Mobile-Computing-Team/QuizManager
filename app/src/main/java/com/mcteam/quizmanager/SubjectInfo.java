@@ -84,4 +84,6 @@ public class SubjectInfo{
     public int getSeconds() {
         return seconds;
     }
+
+    public int getId(){return id;}
 }
