@@ -82,7 +82,7 @@ public class DBHelper extends SQLiteOpenHelper {
             SQLiteDatabase db=this.getWritableDatabase();
             ContentValues contentValues=new ContentValues();
             contentValues.put(TABLE3_COLUMNS[0],updatedPassword);
-            db.update(TABLE3_NAME,contentValues,"a=?",new String[]{"a"});
+            db.update(TABLE3_NAME,contentValues,"1=1",null);
             db.close();
             return true;
         }
