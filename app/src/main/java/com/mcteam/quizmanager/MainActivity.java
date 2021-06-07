@@ -109,4 +109,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog= new AlertDialog.Builder(this);
+        dialog.setTitle("Confirmation");
+        dialog.setMessage("Are you sure to exit?");
+        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        dialog.setNegativeButton("No", null);
+        dialog.create().show();
+    }
 }
