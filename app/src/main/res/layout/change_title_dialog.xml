@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -10,7 +9,7 @@
         android:id="@+id/input_label"
         android:layout_width="95dp"
         android:layout_height="wrap_content"
-        android:text="Subject Title: "
+        android:text="@string/subject_title_label"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/sectionTitle"
         app:layout_constraintEnd_toStartOf="@+id/sectionTitle"
@@ -24,20 +23,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter Subject Title"
+        android:hint="@string/subject_title_hint"
         android:inputType="textPersonName"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/input_label"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/error"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Title is Duplicate!"
+        android:text="@string/duplicate_title_error"
         android:textColor="#FF0000"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

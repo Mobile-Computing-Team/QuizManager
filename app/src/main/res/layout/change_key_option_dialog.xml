@@ -8,7 +8,7 @@
         android:id="@+id/label_change_key"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Key Option: "
+        android:text="@string/key_option_label"
         app:layout_constraintBottom_toBottomOf="@+id/change_key_input"
         app:layout_constraintEnd_toStartOf="@+id/change_key_input"
         app:layout_constraintHorizontal_bias="0.5"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:button="@drawable/normal_radio_button"
             android:checked="true"
-            android:text="Option A"
+            android:text="@string/option_a_view"
             android:textSize="14sp" />
 
         <RadioButton
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@drawable/normal_radio_button"
-            android:text="Option B"
+            android:text="@string/option_b_view"
             android:textSize="14sp" />
 
         <RadioButton
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@drawable/normal_radio_button"
-            android:text="Option C"
+            android:text="@string/option_c_view"
             android:textSize="14sp" />
 
         <RadioButton
@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@drawable/normal_radio_button"
-            android:text="Option D"
+            android:text="@string/option_d_view"
             android:textSize="14sp" />
     </RadioGroup>
 
