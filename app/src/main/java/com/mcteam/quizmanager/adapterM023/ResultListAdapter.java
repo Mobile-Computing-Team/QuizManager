@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.mcteam.quizmanager.QuestionInfo;
 import com.mcteam.quizmanager.R;
+import com.mcteam.quizmanager.StartQuizM023;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class ResultListAdapter extends BaseAdapter {
         LinearLayout layout= (LinearLayout) convertView.findViewById(R.id.result_item);
         ImageButton imgBtn=convertView.findViewById(R.id.question_status);
         txt.setText("Question # "+String.valueOf(position+1));
-        boolean quesStatus=(quizQuestions.get(position).getKey().charAt(0)-'A')+1==userAnswers[position];
+        boolean quesStatus=(StartQuizM023.getAnswer(quizQuestions.get(position)) ==userAnswers[position]);
 
         if(quesStatus)
             layout.setBackgroundColor(context.getResources().getColor(R.color.colorLow));

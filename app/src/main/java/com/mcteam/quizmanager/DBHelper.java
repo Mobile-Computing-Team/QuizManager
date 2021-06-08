@@ -302,7 +302,7 @@ public class DBHelper extends SQLiteOpenHelper {
         "ArrayList<QuestionInfo>"*/
     }
 
-    public static void storeBundle(BundleM023 bundleM023) {
+    /*public static void storeBundle(BundleM023 bundleM023) {
         tempStorage=bundleM023;
     }
 
@@ -335,5 +335,5 @@ public class DBHelper extends SQLiteOpenHelper {
         list.add(new QuestionInfo(4,1,"A","3 - 2 = ?","1","0","00","2","Its addition"));
         list.add(new QuestionInfo(5,1,"C","3 * 2 = ?","4","0","6","2","Its addition"));
         return list;
-    }
+    }*/
 }

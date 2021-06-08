@@ -2,11 +2,13 @@
 
 package com.mcteam.quizmanager.adapterM023;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +42,7 @@ public class RecViewAdpaterForSub extends RecyclerView.Adapter<RecViewAdpaterFor
     public RecViewAdpaterForSub(Context context, ArrayList<SubjectInfo> arrayList) {
         this.context = context;
         this.subList = arrayList;
-        allQuestions=DBHelper.getQuestionsListOfSubject();
+        //allQuestions=DBHelper.getQuestionsListOfSubject();
         quizQuestions=new ArrayList<QuestionInfo>();
     }
 
@@ -86,6 +88,7 @@ public class RecViewAdpaterForSub extends RecyclerView.Adapter<RecViewAdpaterFor
             subText.setOnClickListener(this);
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onClick(View v) {
             if(v.getId()==subText.getId())
@@ -102,7 +105,7 @@ public class RecViewAdpaterForSub extends RecyclerView.Adapter<RecViewAdpaterFor
 
             //make a dialogue
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
-            builder.setTitle(subText.getText());
+            builder.setTitle(Html.fromHtml("<font color="+context.getResources().getColor(R.color.basicTheme)+">"+subText.getText()+"</font>"));
             //builder.setMessage("Info of subject");
             builder.setCancelable(false);
 
@@ -111,15 +114,19 @@ public class RecViewAdpaterForSub extends RecyclerView.Adapter<RecViewAdpaterFor
             builder.setView(view);
             mcqCount=subList.get(i).getQuizMCQs()>subList.get(i).getTotalQuestions()?subList.get(i).getTotalQuestions():subList.get(i).getQuizMCQs();
             ((TextView)view.findViewById(R.id.mcqTextView)).setText("Total MCQ  : "+mcqCount);
+            ((TextView)view.findViewById(R.id.mcqTextView)).setTextColor(context.getResources().getColor(R.color.basicTheme));
             String value="Total Time : "+String.format("%02dH %02dM %02dS",subList.get(i).getHours(),subList.get(i).getMinutes(),subList.get(i).getSeconds());
             ((TextView)view.findViewById(R.id.timeTextView)).setText(value);
+            ((TextView)view.findViewById(R.id.timeTextView)).setTextColor(context.getResources().getColor(R.color.basicTheme));
             builder.setPositiveButton("Start Quiz", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //This button will be enable just when quiz is ready now move to other page or activity
                     //First of all you hae to made there a quiz, try to make them static so you can access them in paper
                     //activity
-                    allQuestions= DBHelper.getQuestionsListOfSubject();
+                    //allQuestions= DBHelper.getQuestionsListOfSubject();
+                    DBHelper database=new DBHelper(context);
+                    allQuestions=database.getQuestionsListOfSubject(subList.get(i).getId()); //questions are retrieved from DB
                     generateRandomQuiz(); //after calling this function,random quiz is populated in arrayList named quizQuestions
                                           //now access that arraList in your new activity and display questions on screen
                     Intent intent=new Intent(context, StartQuizM023.class);

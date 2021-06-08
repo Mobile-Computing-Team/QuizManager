@@ -20,7 +20,7 @@
             android:id="@+id/choice1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="choice 1" />
+            />
         <RadioButton
             android:id="@+id/choice2"
             android:layout_width="wrap_content"
@@ -38,6 +38,15 @@
             android:text="choice 4"
             />
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/unsolvedQues"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:textStyle="italic"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"

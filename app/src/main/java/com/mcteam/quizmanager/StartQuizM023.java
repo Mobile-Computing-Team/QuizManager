@@ -91,7 +91,7 @@ public class StartQuizM023 extends AppCompatActivity {
 
         if(savedInstanceState!=null)
         {
-            BundleM023 data=DBHelper.getBundle();
+            /*BundleM023 data=DBHelper.getBundle();
             currQues=data.getCurrQues();
             userAnswers=data.getUserAnswers();
             flagQues=data.getFlagQues();
@@ -100,7 +100,17 @@ public class StartQuizM023 extends AppCompatActivity {
             submitFlag=data.isSubmitFlag();
             hour=data.getHour();
             min=data.getMin();
-            sec=data.getSec();
+            sec=data.getSec();*/
+            currQues=savedInstanceState.getInt("currQues");
+            userAnswers=savedInstanceState.getIntArray("userAnswers");
+            flagQues=savedInstanceState.getBooleanArray("flagQues");
+            solved=savedInstanceState.getStringArrayList("solved");
+            finishFlag=savedInstanceState.getBoolean("finishFlag");
+            submitFlag=savedInstanceState.getBoolean("submitFlag");
+            long storedSec=savedInstanceState.getLong("tempSec");
+            hour = (int) storedSec/3600;
+            min = (int) storedSec/60;
+            sec = (int) storedSec%60;
             if(finishFlag)//means time was over when user rotate screen
             {
                 //navigate to result
@@ -275,6 +285,16 @@ public class StartQuizM023 extends AppCompatActivity {
 
     public void submit(View view) //this function will be called on finish of counter and for itself
     {
+        submitQuiz();
+
+        //submit quiz, open dialogue and show result with 2 buttons, ok and see Details, on clicking of
+        //see details open new actiity withh a buuton named ok(naigate to main page) and show their a recler list of wrong/correct ques with red and green back and with button
+        //on clicking of button details of that mcq will be shown on dialogue
+    }
+
+
+    void submitQuiz()
+    {
         submitFlag=true;
         //also ask for confirmation
         //if user entered inside +ve button then leave a flag of enterence(true), and if entered inside onFinish then also leave a flag
@@ -304,17 +324,15 @@ public class StartQuizM023 extends AppCompatActivity {
         Dialog dialog= builder.create();
         dialog.show();
         submitFlag=false;
-
-        //submit quiz, open dialogue and show result with 2 buttons, ok and see Details, on clicking of
-        //see details open new actiity withh a buuton named ok(naigate to main page) and show their a recler list of wrong/correct ques with red and green back and with button
-        //on clicking of button details of that mcq will be shown on dialogue
     }
+
     //on clicking of any button in recycler view of all make curQUes outer to white, then set curr to cliked button and generate quiz
     public void closeQuiz()
     {
         //now here show a dialogue box
         //
 
+        timerSave.cancel(); //close timer
         AlertDialog.Builder builder=new AlertDialog.Builder(StartQuizM023.this);
         builder.setTitle("Result");
         builder.setMessage("Correct answers "+countMarks()+" out of "+RecViewAdpaterForSub.mcqCount);
@@ -327,6 +345,7 @@ public class StartQuizM023 extends AppCompatActivity {
                 //
 
                 Intent intent=new Intent(StartQuizM023.this,ResultDetails.class);
+                intent.putExtra("userAnswers",userAnswers);
                 startActivity(intent);
             }
         });
@@ -341,11 +360,22 @@ public class StartQuizM023 extends AppCompatActivity {
         dialog.show();
     }
 
+    public static int getAnswer(QuestionInfo questionInfo)
+    {
+        if(questionInfo.getKey().equals(questionInfo.getOption1()))
+            return 1;
+        if(questionInfo.getKey().equals(questionInfo.getOption2()))
+            return 2;
+        if(questionInfo.getKey().equals(questionInfo.getOption3()))
+            return 3;
+        return 4;
+    }
+
     int countMarks()
     {
         int count=0;
         for(int i=0;i<RecViewAdpaterForSub.mcqCount;i++)
-            if((RecViewAdpaterForSub.quizQuestions.get(i).getKey().charAt(0)-'A')+1==userAnswers[i]) //key matched
+            if(getAnswer(RecViewAdpaterForSub.quizQuestions.get(i))==userAnswers[i]) //key matched
                 count++;
         return count;
     }
@@ -353,10 +383,24 @@ public class StartQuizM023 extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull @NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        DBHelper.storeBundle(new BundleM023(currQues,userAnswers,flagQues,solved,finishFlag,submitFlag,tempSec));
-        Bundle bundle=new Bundle();
-        bundle.putBoolean("rotate",true);
+        //DBHelper.storeBundle(new BundleM023(currQues,userAnswers,flagQues,solved,finishFlag,submitFlag,tempSec));
+        //Bundle bundle=new Bundle();
+        //bundle.putBoolean("rotate",true);
         timerSave.cancel();
+
+        outState.putInt("currQues",currQues);
+        outState.putIntArray("userAnswers",userAnswers);
+        outState.putBooleanArray("flagQues",flagQues);
+        outState.putStringArrayList("solved",solved);
+        outState.putBoolean("finishFlag",finishFlag);
+        outState.putBoolean("submitFlag",submitFlag);
+        outState.putLong("tempSec",tempSec);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        submitQuiz();
     }
 
     //@Override

@@ -25,7 +25,8 @@ public class AttemptModeM023 extends AppCompatActivity {
         setContentView(R.layout.activity_attempt_mode_m023);
 
         //this subject arrayList will be filled from Database; e.g subject= DBHelper.getAllSubjects()
-        subjects=DBHelper.getSubjectList();
+        DBHelper database=new DBHelper(this);
+        subjects=database.getSubjectsList();
         //
 
          if(subjects.size()>0)
