@@ -353,6 +353,7 @@ public class StartQuizM023 extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent=new Intent(StartQuizM023.this,MainActivity.class); //quiz is over go back to main page
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });

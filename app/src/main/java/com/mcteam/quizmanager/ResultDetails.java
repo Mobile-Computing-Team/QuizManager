@@ -106,6 +106,7 @@ public class ResultDetails extends AppCompatActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         Intent intent=new Intent(this,MainActivity.class);   //on back press go back to main menu
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 }
